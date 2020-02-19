@@ -1,0 +1,117 @@
+/*
+ * Copyright (c) 2020 Alexander Iskander
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+
+package com.skanders.rms.util.result;
+
+import com.skanders.rms.base.model.ResponseModel;
+import com.skanders.rms.logger.Log;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+public class Resulted<T> implements AutoCloseable
+{
+    private static final Logger LOG = LogManager.getLogger(Resulted.class);
+
+    private final T value;
+    private Result result;
+
+    private Resulted(@Nullable T value, @NotNull Result result)
+    {
+        this.value = value;
+        this.result = result;
+    }
+
+    public static <T> Resulted<T> inValue(@NotNull T value)
+    {
+        return new Resulted<>(value, Result.VALID);
+    }
+
+    public static <T> Resulted<T> inResult(@NotNull Result result)
+    {
+        return new Resulted<>(null, result);
+    }
+
+    public static <T> Resulted<T> inException(@NotNull Exception exception)
+    {
+        return new Resulted<>(null, Result.exception(exception));
+    }
+
+    public static <T> Resulted<T> inResulted(@NotNull Resulted resulted)
+    {
+        return new Resulted<>(null, resulted.result);
+    }
+
+    public T value()
+    {
+        return value;
+    }
+
+    public Result result()
+    {
+        return result;
+    }
+
+    public boolean notValid()
+    {
+        if (this.result != Result.VALID) {
+            LOG.trace(Log.EXIT_EARLY, "Handler encountered non valid result", this.result.message());
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean notValid(ResponseModel responseModel)
+    {
+        if (this.result != Result.VALID) {
+            LOG.trace(Log.EXIT_EARLY, "Handler encountered non valid result", this.result.message());
+            responseModel.setResult(result);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void close()
+    {
+        LOG.trace("Close being called on WorkFlow Value");
+        try {
+            if (value == null) {
+                LOG.trace("Value is null");
+
+            } else if (value instanceof AutoCloseable) {
+                ((AutoCloseable) value).close();
+                LOG.trace("Value has been closed");
+
+            } else {
+                LOG.trace("Value is not instance of AutoCloseable");
+
+            }
+
+
+        } catch (Exception e) {
+            LOG.error("SEVERE ERROR: Exception when trying to close");
+            LOG.error(Log.ERROR, e.getClass(), e.getMessage());
+
+        }
+    }
+}
