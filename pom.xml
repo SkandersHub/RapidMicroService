@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.skanders</groupId>
-    <artifactId>skanders-rms</artifactId>
+    <groupId>com.skanders.rms</groupId>
+    <artifactId>rms</artifactId>
     <version>0.5.0</version>
 
     <name>Rapid MicroService</name>
