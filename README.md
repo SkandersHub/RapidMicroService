@@ -1,10 +1,10 @@
 ![alt text](https://github.com/alexskanders/RapidMicroService/blob/master/assets/logo.png "Rapid MicroService")
 
-## Rapid Micro Service
+## Rapid MicroService
 
 Current Version: (Beta) 0.5.0
 
-RapidMicroService (RMS) is a library for quickly creating Micro-Services utilizing Grizzly, Jersey, Jackson and HikariCP. RMS contains several utilizes to help manage RESTful API calls and ensure proper Connection Pool resource management as well as easily to track Workflow and request Results.
+Rapid MicroService (RMS) is a library for quickly creating Microservices utilizing Grizzly, Jersey, Jackson and HikariCP. RMS contains several utilizes to help manage RESTful API calls and ensure proper Connection Pool resource management as well as easily to track Workflow and request Results.
 
 A lot of features are still either not tested or lightly tested as this library is still very early in development. It isn't recommended to be used for any official releases.
 
