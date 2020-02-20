@@ -12,13 +12,13 @@ Maven:
 <dependency>
     <groupId>com.skanders.rms</groupId>
     <artifactId>rms</artifactId>
-    <version>0.5.1</version>
+    <version>0.5.2</version>
 </dependency>
 ~~~
 
 Gradle:
 ~~~javascript
-implementation 'com.skanders.rms:rms:0.5.1'
+implementation 'com.skanders.rms:rms:0.5.2'
 ~~~
 
 ## 
