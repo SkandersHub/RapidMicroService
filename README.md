@@ -1,14 +1,19 @@
-![alt text](https://github.com/alexskanders/RapidMicroService/blob/master/assets/logo.png "Rapid MicroService")
+![rms logo](https://github.com/alexskanders/RapidMicroService/blob/master/assets/logo.png "Rapid MicroService")
 
 ## Rapid MicroService
 
-Current Version: (Beta) 0.5.0
+![license badge](https://img.shields.io/github/license/alexskanders/RapidMicroService)
+![maven badge](https://img.shields.io/maven-central/v/com.skanders.rms/rms)
+
+Current Version: (Beta) 0.5.1
 
 Rapid MicroService (RMS) is a library for quickly creating Microservices utilizing Grizzly, Jersey, Jackson and HikariCP. RMS contains several utilizes to help manage RESTful API calls and ensure proper Connection Pool resource management as well as easily to track Workflow and request Results.
 
 A lot of features are still either not tested or lightly tested as this library is still very early in development. It isn't recommended to be used for any official releases.
 
 Since the library is very early in development expect large scale changes this early on.
+
+## 
 
 - [Creating Services](#Creating-Services)
 - [RMSConfig](#RMSConfig)
@@ -21,7 +26,22 @@ Since the library is very early in development expect large scale changes this e
 - [Dependencies](#Dependencies)
 
 
+## Artifacts
 
+Maven:
+
+~~~
+<dependency>
+    <groupId>com.skanders.rms</groupId>
+    <artifactId>rms</artifactId>
+    <version>0.5.1</version>
+</dependency>
+~~~
+
+Gradle:
+~~~
+compile group: 'com.skanders.rms', name: 'rms', version: '0.5.1'
+~~~
 
 
 ## Creating Services
