@@ -4,7 +4,7 @@
 
     <groupId>com.skanders.rms</groupId>
     <artifactId>rms</artifactId>
-    <version>0.5.3</version>
+    <version>0.5.4-SNAPSHOT</version>
 
     <name>Rapid MicroService</name>
     <description>A library for quickly developing microservices</description>
@@ -38,7 +38,7 @@
         <connection>scm:git:ssh://git@github.com/alexskanders/RapidMicroService.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/alexskanders/RapidMicroService.git</developerConnection>
         <url>http://github.com/alexskanders/RapidMicroService/tree/master</url>
-      <tag>rms-0.5.3</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <dependencies>
