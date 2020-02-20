@@ -2,8 +2,8 @@
 
 ## Rapid MicroService
 
-![license badge](https://img.shields.io/github/license/alexskanders/RapidMicroService)
-![maven badge](https://img.shields.io/maven-central/v/com.skanders.rms/rms)
+![license badge](https://img.shields.io/github/license/alexskanders/RapidMicroService?style=flat-square)
+![maven badge](https://img.shields.io/maven-central/v/com.skanders.rms/rms?style=flat-square)
 
 Maven:
 
