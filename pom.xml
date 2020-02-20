@@ -4,7 +4,7 @@
 
     <groupId>com.skanders.rms</groupId>
     <artifactId>rms</artifactId>
-    <version>0.6.1-SNAPSHOT</version>
+    <version>0.5.4-SNAPSHOT</version>
 
     <name>Rapid MicroService</name>
     <description>A library for quickly developing microservices</description>
