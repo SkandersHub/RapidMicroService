@@ -4,6 +4,7 @@
 
 ![license badge](https://img.shields.io/github/license/alexskanders/RapidMicroService?logo=apachelink=https://github.com/alexskanders/RapidMicroService/blob/master/LICENSE)
 ![maven badge](https://img.shields.io/maven-central/v/com.skanders.rms/rms?logo=apache-maven?link=https://search.maven.org/artifact/com.skanders.rms/rms)
+[![javadoc](https://javadoc.io/badge2/com.skanders.rms/rms/javadoc.svg)](https://javadoc.io/doc/com.skanders.rms/rms)
 
 Maven:
 
