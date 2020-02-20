@@ -6,4 +6,5 @@ out
 
 *.iml
 *.releaseBackup
+*.versionsBackup
 *.properties
