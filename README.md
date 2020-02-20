@@ -2,8 +2,8 @@
 
 ## Rapid MicroService
 
-![license badge](https://img.shields.io/github/license/alexskanders/RapidMicroService?logo=apachelink=https://github.com/alexskanders/RapidMicroService/blob/master/LICENSE)
-![maven badge](https://img.shields.io/maven-central/v/com.skanders.rms/rms?logo=apache-maven?link=https://search.maven.org/artifact/com.skanders.rms/rms)
+[![license badge](https://img.shields.io/github/license/alexskanders/RapidMicroService?logo=apache)](https://github.com/alexskanders/RapidMicroService/blob/master/LICENSE)
+[![Maven Central](https://img.shields.io/maven-central/v/com.skanders.rms/rms.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.skanders.rms%22%20AND%20a:%22rms%22)
 [![javadoc](https://javadoc.io/badge2/com.skanders.rms/rms/javadoc.svg)](https://javadoc.io/doc/com.skanders.rms/rms)
 
 Maven:
