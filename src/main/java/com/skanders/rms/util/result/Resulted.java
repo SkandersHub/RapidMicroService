@@ -19,7 +19,7 @@
 package com.skanders.rms.util.result;
 
 import com.skanders.rms.base.model.ResponseModel;
-import com.skanders.rms.logger.Log;
+import com.skanders.rms.def.logger.Log;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

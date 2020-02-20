@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.skanders.rms.logger.Log;
+import com.skanders.rms.def.logger.Log;
 import com.skanders.rms.util.result.RMSResult;
 import com.skanders.rms.util.result.Result;
 import com.skanders.rms.util.result.Resulted;

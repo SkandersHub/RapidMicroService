@@ -21,7 +21,7 @@ package com.skanders.rms.base.service;
 import com.skanders.rms.base.config.RMSConfig;
 import com.skanders.rms.def.exception.RMSException;
 import com.skanders.rms.def.verify.RMSVerify;
-import com.skanders.rms.logger.Log;
+import com.skanders.rms.def.logger.Log;
 import com.skanders.rms.util.connectionpool.PoolManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

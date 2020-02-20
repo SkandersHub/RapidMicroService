@@ -16,7 +16,7 @@
 
 
 
-package com.skanders.rms.logger;
+package com.skanders.rms.def.logger;
 
 public class Color
 {

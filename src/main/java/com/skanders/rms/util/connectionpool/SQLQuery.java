@@ -19,7 +19,7 @@
 package com.skanders.rms.util.connectionpool;
 
 import com.skanders.rms.def.verify.RMSVerify;
-import com.skanders.rms.logger.Log;
+import com.skanders.rms.def.logger.Log;
 import com.skanders.rms.util.result.Resulted;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
