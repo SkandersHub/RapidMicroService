@@ -30,7 +30,7 @@ Since the library is very early in development expect large scale changes this e
 
 Maven:
 
-~~~
+~~~xml
 <dependency>
     <groupId>com.skanders.rms</groupId>
     <artifactId>rms</artifactId>
@@ -39,8 +39,8 @@ Maven:
 ~~~
 
 Gradle:
-~~~
-compile group: 'com.skanders.rms', name: 'rms', version: '0.5.1'
+~~~javascript
+implementation 'com.skanders.rms:rms:0.5.1'
 ~~~
 
 
