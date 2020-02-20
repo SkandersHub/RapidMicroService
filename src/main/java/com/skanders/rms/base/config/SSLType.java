@@ -19,6 +19,13 @@ package com.skanders.rms.base.config;
 
 import com.skanders.rms.def.exception.RMSException;
 
+/**
+ * Helper enum for RMSProperties to select ssl.type option from the config file
+ * for RMSConfig
+ *
+ * @see RMSProperties
+ * @see RMSConfig
+ */
 public enum SSLType
 {
     NONE,
@@ -26,13 +33,19 @@ public enum SSLType
     TRUSTSTORE,
     FULL;
 
-    static SSLType getType(String type)
+    /**
+     * Gets enum type from String value. if value is null {@link SSLType#NONE}
+     * is returned
+     *
+     * @param value string stating the desired type
+     * @return an CORSType corresponding with the value
+     */
+    static SSLType getType(String value)
     {
-        if (type == null)
+        if (value == null)
             return SSLType.NONE;
 
-        switch (type.toLowerCase())
-        {
+        switch (value.toLowerCase()) {
             case "none":
                 return SSLType.NONE;
             case "keystore":

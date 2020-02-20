@@ -19,19 +19,33 @@ package com.skanders.rms.base.config;
 
 import com.skanders.rms.def.exception.RMSException;
 
+/**
+ * Helper enum for RMSProperties to select db.type option from the config file
+ * for RMSConfig
+ *
+ * @see RMSProperties
+ * @see RMSConfig
+ */
 public enum DBType
 {
     NONE,
     URL,
     DRIVER;
 
-    static DBType getType(String type)
+    /**
+     * Gets enum type from String value.
+     * <p>
+     * If value is null {@link DBType#NONE} is returned
+     *
+     * @param value string stating the desired type
+     * @return an CORSType corresponding with the value
+     */
+    static DBType getType(String value)
     {
-        if (type == null)
+        if (value == null)
             return DBType.NONE;
 
-        switch (type.toLowerCase())
-        {
+        switch (value.toLowerCase()) {
             case "none":
                 return DBType.NONE;
             case "url":

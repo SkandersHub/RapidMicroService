@@ -15,7 +15,6 @@
  */
 
 
-
 package com.skanders.rms.base.config;
 
 import com.skanders.rms.def.verify.RMSVerify;
@@ -25,44 +24,60 @@ import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.HashMap;
 
+/**
+ * Configuration object for RapidMicroService to set its initial state.
+ * <p>
+ * The values are mapped from {@link RMSProperties} and as such RMSConfig be
+ * constructed by giving it an instance of RMSProperties
+ * <p>
+ * This should be extended when more config options are needed but when
+ * extending the super MUST be called and given an the instance of RMSProperties
+ * in order to set its base settings
+ */
 public class RMSConfig
 {
-    private  String uriScheme;
-    private  String uriHostName;
+    private String uriScheme;
+    private String uriHostName;
     private Integer uriPort;
-    private  String uriPath;
+    private String uriPath;
 
 
-    private  String sslKeyStoreFile;
-    private  String sslKeyStorePass;
-    private  String sslTrustStoreFile;
-    private  String sslTrustStorePass;
+    private String sslKeyStoreFile;
+    private String sslKeyStorePass;
+    private String sslTrustStoreFile;
+    private String sslTrustStorePass;
 
 
-    private  String dbUrl;
-    private  String dbDriver;
-    private  String dbHostname;
+    private String dbUrl;
+    private String dbDriver;
+    private String dbHostname;
     private Integer dbPort;
-    private  String dbName;
-    private  String dbUsername;
-    private  String dbPassword;
-    private    Long dbMaxLifetime;
+    private String dbName;
+    private String dbUsername;
+    private String dbPassword;
+    private Long dbMaxLifetime;
     private Integer dbMaxPoolSize;
-    private HashMap dbProperties;
+    private HashMap<String, Object> dbProperties;
 
 
-    private  String corsOrigin;
-    private  String corsMethods;
-    private  String corsHeaders;
-    private  String corsExposeHeaders;
-    private  String corsCredentials;
-    private  String corsMaxAge;
+    private String corsOrigin;
+    private String corsMethods;
+    private String corsHeaders;
+    private String corsExposeHeaders;
+    private String corsCredentials;
+    private String corsMaxAge;
 
 
-    private DBType   dbType;
-    private SSLType  sslType;
+    private DBType dbType;
+    private SSLType sslType;
     private CORSType corsType;
 
+
+    /**
+     * Constructor for RMSConfig
+     *
+     * @param prop an instance of RMSProperties
+     */
     public RMSConfig(@NotNull RMSProperties prop)
     {
         RMSVerify.checkNull(prop, "prop cannot be null");
@@ -73,14 +88,24 @@ public class RMSConfig
         setCORSConfig(prop);
     }
 
+    /**
+     * Sets RMS's URI settings
+     *
+     * @param prop an instance of RMSProperties
+     */
     private void setUriConfigs(@NotNull RMSProperties prop)
     {
-        uriScheme   = prop.getReqStr("uri.scheme");
+        uriScheme = prop.getReqStr("uri.scheme");
         uriHostName = prop.getReqStr("uri.hostname");
-        uriPort     = prop.getReqInt("uri.port");
-        uriPath     = prop.getReqStr("uri.path");
+        uriPort = prop.getReqInt("uri.port");
+        uriPath = prop.getReqStr("uri.path");
     }
 
+    /**
+     * Sets RMS's SSL settings
+     *
+     * @param prop an instance of RMSProperties
+     */
     private void setSSLEngineConfig(@NotNull RMSProperties prop)
     {
         if ((sslType = prop.getSSLType()) == SSLType.NONE)
@@ -93,6 +118,11 @@ public class RMSConfig
             setTrustStore(prop);
     }
 
+    /**
+     * Sets the keystore values
+     *
+     * @param prop an instance of RMSProperties
+     */
     private void setKeyStore(@NotNull RMSProperties prop)
     {
         sslKeyStoreFile = prop.getReqStr("ssl.keyStoreFile");
@@ -105,6 +135,11 @@ public class RMSConfig
         prop.checkIgnored("ssl.trustStorePass");
     }
 
+    /**
+     * Sets the truststore values
+     *
+     * @param prop an instance of RMSProperties
+     */
     private void setTrustStore(@NotNull RMSProperties prop)
     {
         sslTrustStoreFile = prop.getReqStr("ssl.trustStoreFile");
@@ -117,6 +152,11 @@ public class RMSConfig
         prop.checkIgnored("ssl.keyStorePass");
     }
 
+    /**
+     * Sets RMS's Database settings
+     *
+     * @param prop an instance of RMSProperties
+     */
     private void setDatabaseConfig(@NotNull RMSProperties prop)
     {
         if ((dbType = prop.getDBType()) == DBType.NONE)
@@ -127,24 +167,34 @@ public class RMSConfig
         else
             setDbDriver(prop);
 
-        dbUsername    = prop.getReqStr("db.username");
-        dbPassword    = prop.getReqStr("db.password");
+        dbUsername = prop.getReqStr("db.username");
+        dbPassword = prop.getReqStr("db.password");
         dbMaxLifetime = prop.getReqLong("db.maxLifetime");
         dbMaxPoolSize = prop.getReqInt("db.maxPoolSize");
 
-        dbProperties  = prop.getMap("db.properties");
+        dbProperties = prop.getMap("db.properties");
     }
 
+    /**
+     * Sets the Database Settings corresponding to a driver config.
+     *
+     * @param prop an instance of RMSProperties
+     */
     private void setDbDriver(@NotNull RMSProperties prop)
     {
-        dbDriver   = prop.getReqStr("db.driver");
+        dbDriver = prop.getReqStr("db.driver");
         dbHostname = prop.getReqStr("db.hostname");
-        dbPort     = prop.getReqInt("db.port");
-        dbName     = prop.getReqStr("db.name");
+        dbPort = prop.getReqInt("db.port");
+        dbName = prop.getReqStr("db.name");
 
         prop.checkIgnored("db.url");
     }
 
+    /**
+     * Sets the Database Settings corresponding to a url config.
+     *
+     * @param prop an instance of RMSProperties
+     */
     private void setDBUrl(@NotNull RMSProperties prop)
     {
         dbUrl = prop.getReqStr("db.url");
@@ -155,156 +205,247 @@ public class RMSConfig
         prop.checkIgnored("db.name");
     }
 
+    /**
+     * Sets RMS's CORS option
+     *
+     * @param prop an instance of RMSProperties
+     */
     private void setCORSConfig(@NotNull RMSProperties prop)
     {
         if ((corsType = prop.getCORSType()) == CORSType.NONE)
             return;
 
-        corsOrigin        = prop.getReqStr("cors.origin");
-        corsMethods       = prop.getReqStr("cors.methods");
-        corsHeaders       = prop.getReqStr("cors.headers");
+        corsOrigin = prop.getReqStr("cors.origin");
+        corsMethods = prop.getReqStr("cors.methods");
+        corsHeaders = prop.getReqStr("cors.headers");
 
         corsExposeHeaders = prop.getStr("cors.exposeHeaders");
 
-        corsCredentials   = prop.getStr("cors.credentials");
-        corsMaxAge        = prop.getStr("cors.maxAge");
+        corsCredentials = prop.getStr("cors.credentials");
+        corsMaxAge = prop.getStr("cors.maxAge");
     }
 
+    /**
+     * @return SSL keystore file location
+     */
     public String getSslKeyStoreFile()
     {
         return sslKeyStoreFile;
     }
 
+    /**
+     * @return SSL keystore file pass
+     */
     public String getSslKeyStorePass()
     {
         return sslKeyStorePass;
     }
 
+    /**
+     * @return SSL truststore file location
+     */
     public String getSslTrustStoreFile()
     {
         return sslTrustStoreFile;
     }
 
+    /**
+     * @return SSL truststore file pass
+     */
     public String getSslTrustStorePass()
     {
         return sslTrustStorePass;
     }
 
+    /**
+     * @return Database url
+     */
     public String getDbUrl()
     {
         return dbUrl;
     }
 
+    /**
+     * @return Database driver
+     */
     public String getDbDriver()
     {
         return dbDriver;
     }
 
+    /**
+     * @return Database hostname
+     */
     public String getDbHostname()
     {
         return dbHostname;
     }
 
+    /**
+     * @return Database port
+     */
     public Integer getDbPort()
     {
         return dbPort;
     }
 
+    /**
+     * @return Database name
+     */
     public String getDbName()
     {
         return dbName;
     }
 
+    /**
+     * @return Database url
+     */
     public String getDbUsername()
     {
         return dbUsername;
     }
 
+    /**
+     * @return Database password
+     */
     public String getDbPassword()
     {
         return dbPassword;
     }
 
+    /**
+     * @return Database connection max lifetime for HikariCP
+     */
     public Long getDbMaxLifetime()
     {
         return dbMaxLifetime;
     }
 
+    /**
+     * @return Database pool max size for HikariCP
+     */
     public Integer getDbMaxPoolSize()
     {
         return dbMaxPoolSize;
     }
 
-    public HashMap getDbProperties()
+    /**
+     * @return Database properties in a HashMap to give to HikariCP
+     */
+    public HashMap<String, Object> getDbProperties()
     {
         return dbProperties;
     }
 
+    /**
+     * @return CORS expose header list (', ' delimited)
+     */
     public String getCorsExposeHeaders()
     {
         return corsExposeHeaders;
     }
 
+    /**
+     * @return CORS origin
+     */
     public String getCorsOrigin()
     {
         return corsOrigin;
     }
 
+    /**
+     * @return CORS method list (', ' delimited)
+     */
     public String getCorsMethods()
     {
         return corsMethods;
     }
 
+    /**
+     * @return CORS header list (', ' delimited)
+     */
     public String getCorsHeaders()
     {
         return corsHeaders;
     }
 
+    /**
+     * @return CORS credential list (', ' delimited)
+     */
     public String getCorsCredentials()
     {
         return corsCredentials;
     }
 
+    /**
+     * @return CORS max age argument
+     */
     public String getCorsMaxAge()
     {
         return corsMaxAge;
     }
 
+    /**
+     * @return true if the database connection is url based
+     */
     public boolean isDbTypeUrl()
     {
         return dbType == DBType.URL;
     }
 
+    /**
+     * @return true if a keystore is to be connected to Grizzly's SSLContext
+     */
     public boolean isKeyStore()
     {
         return sslType == SSLType.KEYSTORE || sslType == SSLType.FULL;
     }
 
+    /**
+     * @return true if a truststore is to be connected to Grizzly's SSLContext
+     */
     public boolean isTrustStore()
     {
         return sslType == SSLType.TRUSTSTORE || sslType == SSLType.FULL;
     }
 
+    /**
+     * At the moment does nothing
+     *
+     * @return true is CORS is wadl enabled
+     */
     public boolean isWadlEnabled()
     {
         return corsType == CORSType.WADL;
     }
 
+    /**
+     * @return true if the Server is to be created with a SSLContext
+     */
     public boolean isSslSecure()
     {
         return sslType != SSLType.NONE;
     }
 
+    /**
+     * @return true if there is to be a database connected to the service
+     */
     public boolean isDbService()
     {
         return dbType != DBType.NONE;
     }
 
+    /**
+     * @return true if cors is to be enabled
+     */
     public boolean isCorsService()
     {
         return corsType != CORSType.NONE;
     }
 
+    /**
+     * @return a URI instance built from the base values given
+     */
     public URI buildServiceUri()
     {
         return UriBuilder.fromUri(uriScheme + uriHostName + uriPath).port(uriPort).build();

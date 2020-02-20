@@ -19,18 +19,33 @@ package com.skanders.rms.base.config;
 
 import com.skanders.rms.def.exception.RMSException;
 
+
+/**
+ * Helper enum for RMSProperties to select cors.type option from
+ * the config file for RMSConfig
+ *
+ * @see RMSProperties
+ * @see RMSConfig
+ */
 public enum CORSType
 {
     NONE,
     STANDARD,
     WADL;
 
-    static CORSType getType(String type)
+    /**
+     * Gets enum type from String value.
+     * if value is null {@link CORSType#NONE} is returned
+     *
+     * @param value string stating the desired type
+     * @return an CORSType corresponding with the value
+     */
+    static CORSType getType(String value)
     {
-        if (type == null)
+        if (value == null)
             return CORSType.NONE;
 
-        switch (type.toLowerCase())
+        switch (value.toLowerCase())
         {
             case "none":
                 return CORSType.NONE;

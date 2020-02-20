@@ -15,21 +15,17 @@
  */
 
 
-
 package com.skanders.rms.def.logger;
 
 
 public class Pattern
 {
-    public static final String ENTER        = "[Enter] {}...";
-    public static final String EXIT_EARLY   = "[Exiting Early] {}. With Result: {}.";
-    public static final String EXIT_FAIL    = "[Exiting With Failure] {}. Caused by {}: {}.";
+    public static final String ENTER = "[Enter] {}...";
+    public static final String EXIT_EARLY = "[Exiting Early] {}. With Result: {}.";
+    public static final String EXIT_FAIL = "[Exiting With Failure] {}. Caused by {}: {}.";
 
-    public static final String INIT         = "Initializing {}...";
-    public static final String INIT_DONE    = "{} has been Initialized.";
+    public static final String INIT = "Initializing {}...";
+    public static final String INIT_DONE = "{} has been Initialized.";
 
-    public static final String ATTEMPT      = "Attempting to {}...";
-    public static final String ATTEMPT_DONE = "Successfully {}.";
-
-    public static final String ERROR        = "Caused by {}: {}.";
+    public static final String ERROR = "Caused by {}: {}.";
 }
