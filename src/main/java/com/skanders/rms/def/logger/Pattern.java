@@ -19,11 +19,11 @@
 package com.skanders.rms.def.logger;
 
 
-public class Log
+public class Pattern
 {
     public static final String ENTER        = "[Enter] {}...";
-    public static final String EXIT_EARLY   = Color.BRIGHT_YELLOW  + "[Exiting Early] {}. With Result: {}."            + Color.DEFAULT;
-    public static final String EXIT_FAIL    = Color.BRIGHT_RED     + "[Exiting With Failure] {}. Caused by {}: {}."    + Color.DEFAULT;
+    public static final String EXIT_EARLY   = "[Exiting Early] {}. With Result: {}.";
+    public static final String EXIT_FAIL    = "[Exiting With Failure] {}. Caused by {}: {}.";
 
     public static final String INIT         = "Initializing {}...";
     public static final String INIT_DONE    = "{} has been Initialized.";
@@ -31,8 +31,5 @@ public class Log
     public static final String ATTEMPT      = "Attempting to {}...";
     public static final String ATTEMPT_DONE = "Successfully {}.";
 
-    public static final String ERROR        = Color.BRIGHT_RED     + "Caused by {}: {}."  + Color.DEFAULT;
-
-    public static final String API_ENTER    = "[{} Request Received] {}...";
-    public static final String API_EXIT     = "Request Completed With Result: {}.";
+    public static final String ERROR        = "Caused by {}: {}.";
 }

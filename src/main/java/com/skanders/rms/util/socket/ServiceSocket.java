@@ -138,14 +138,9 @@ public class ServiceSocket
      * @param headerMap a MultivaluedMap instance
      * @return the object being called
      */
-    public ServiceSocket headers(MultivaluedMap<String, Object> headerMap)
+    public ServiceSocket headers(@NotNull MultivaluedMap<String, Object> headerMap)
     {
-        if (headerMap == null) {
-            headers = null;
-
-        } else {
-            appendArgs(headers, headerMap);
-        }
+        headers.putAll(headerMap);
 
         return this;
     }
@@ -170,13 +165,9 @@ public class ServiceSocket
      * @param queryMap a MultivaluedMap instance
      * @return the object being called
      */
-    public ServiceSocket queries(MultivaluedMap<String, Object> queryMap)
+    public ServiceSocket queries(@NotNull MultivaluedMap<String, Object> queryMap)
     {
-        if (queryMap == null)
-            queries = null;
-
-        else
-            appendArgs(queries, queryMap);
+        queries.putAll(queryMap);
 
         return this;
     }
@@ -209,18 +200,12 @@ public class ServiceSocket
             for (String key : queries.keySet())
                 webTarget = webTarget.queryParam(key, queries.getFirst(key));
 
-        Builder builder =  webTarget.request(acceptType);
+        Builder builder = webTarget.request(acceptType);
 
         if (headers != null)
             for (String key : headers.keySet())
                 builder.header(key, headers.getFirst(key));
 
         return builder;
-    }
-
-    private void appendArgs(MultivaluedHashMap<String, Object> map, MultivaluedMap<String, Object> args)
-    {
-        for (String key : args.keySet())
-            map.add(key, args.getFirst(key));
     }
 }

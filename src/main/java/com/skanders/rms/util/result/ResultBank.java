@@ -16,9 +16,9 @@
 
 package com.skanders.rms.util.result;
 
-import com.skanders.rms.def.logger.Log;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.skanders.rms.def.logger.Pattern;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public interface ResultBank
 {
-    Logger LOG = LogManager.getLogger(ResultBank.class);
+    Logger LOG = LoggerFactory.getLogger(ResultBank.class);
 
     class Bank
     {
@@ -57,7 +57,7 @@ public interface ResultBank
             } catch (NoSuchMethodException | InvocationTargetException |
                     InstantiationException | IllegalAccessException e) {
                 LOG.error("Unable to load bank, classes must have public no args constructor, and public Result values.");
-                LOG.error(Log.ERROR, e.getCause(), e.getMessage());
+                LOG.error(Pattern.ERROR, e.getCause(), e.getMessage());
                 e.printStackTrace();
 
             }

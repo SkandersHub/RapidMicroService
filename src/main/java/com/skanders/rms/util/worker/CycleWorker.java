@@ -21,8 +21,8 @@ import com.skanders.rms.util.result.RMSResult;
 import com.skanders.rms.util.result.Result;
 import com.skanders.rms.util.worker.def.WorkerState;
 import com.skanders.rms.util.worker.request.CycleWorkerRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.validation.constraints.NotNull;
 import java.time.Duration;
@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CycleWorker
 {
-    private static final Logger LOG = LogManager.getLogger(CycleWorker.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CycleWorker.class);
 
     private static final Long START_DELAY_NONE    = 0L;
     private static final Integer SINGLE_CORE_POOL = 1;

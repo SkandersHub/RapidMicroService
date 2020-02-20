@@ -19,15 +19,15 @@
 package com.skanders.rms.util.encrypt;
 
 import com.google.common.io.BaseEncoding;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
 
 public class SecureBytes
 {
-    private static final Logger LOG = LogManager.getLogger(SecureBytes.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SecureBytes.class);
 
     private static final byte B_CLEAR = '\u0000';
 

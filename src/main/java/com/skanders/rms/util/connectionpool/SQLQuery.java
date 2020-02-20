@@ -19,10 +19,10 @@
 package com.skanders.rms.util.connectionpool;
 
 import com.skanders.rms.def.verify.RMSVerify;
-import com.skanders.rms.def.logger.Log;
+import com.skanders.rms.def.logger.Pattern;
 import com.skanders.rms.util.result.Resulted;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.validation.constraints.NotNull;
 import java.sql.ResultSet;
@@ -32,7 +32,7 @@ import java.util.List;
 
 public class SQLQuery
 {
-    private static final Logger LOG = LogManager.getLogger(SQLQuery.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SQLQuery.class);
 
     private final String query;
     private final PoolManager poolManager;
@@ -66,22 +66,18 @@ public class SQLQuery
         RMSVerify.argument(closed, "SQLQuery cannot be called after closed");
         this.closed = true;
 
-        LOG.debug(Log.ENTER, "Database Execute Update");
+        LOG.debug(Pattern.ENTER, "Database Execute Update");
 
         try (QueryManager queryManager = poolManager.createQuery(query))
         {
-            LOG.trace(Log.ATTEMPT, "Setting Query Parameters");
             queryManager.setParams(paramList);
-            LOG.trace(Log.ATTEMPT_DONE, "Setting Query Parameters");
 
-            LOG.trace(Log.ATTEMPT, "Execute Update Query");
             Integer updateCount = queryManager.executeUpdate();
-            LOG.trace(Log.ATTEMPT_DONE, "Execute Update Query");
 
             return Resulted.inValue(updateCount);
 
         } catch (SQLException e) {
-            LOG.error(Log.EXIT_FAIL, "Prepare Database Update Execution", e.getClass(), e.getMessage());
+            LOG.error(Pattern.EXIT_FAIL, "Prepare Database Update Execution", e.getClass(), e.getMessage());
 
             return Resulted.inException(e);
 
@@ -93,24 +89,21 @@ public class SQLQuery
         RMSVerify.argument(closed, "SQLQuery cannot be called after closed");
         this.closed = true;
 
-        LOG.debug(Log.ENTER, "Database Execute Query");
+        LOG.debug(Pattern.ENTER, "Database Execute Query");
 
         QueryManager queryManager = null;
 
         try {
             queryManager = poolManager.createQuery(query);
 
-            LOG.trace(Log.ATTEMPT, "Setting Query Parameters");
             queryManager.setParams(paramList);
-            LOG.trace(Log.ATTEMPT_DONE, "Setting Query Parameters");
 
-            LOG.trace(Log.ATTEMPT, "Execute Query");
             ResultSet rs = queryManager.executeQuery();
-            LOG.trace(Log.ATTEMPT_DONE, "Execute Query");
+
             return Resulted.inValue(SQLResult.newInstance(queryManager, rs));
 
         } catch (SQLException e) {
-            LOG.error(Log.EXIT_FAIL, "Prepare Database Query Execution", e.getClass(), e.getMessage());
+            LOG.error(Pattern.EXIT_FAIL, "Prepare Database Query Execution", e.getClass(), e.getMessage());
 
             RMSVerify.close(queryManager);
 

@@ -24,14 +24,14 @@ import com.skanders.rms.util.result.RMSResult;
 import com.skanders.rms.util.result.Result;
 import com.skanders.rms.util.worker.def.WorkerRequestState;
 import com.skanders.rms.util.worker.def.WorkerValidate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.time.Duration;
 
 public class CycleWorkerRequest extends RequestModel
 {
-    private static final Logger LOG = LogManager.getLogger(CycleWorkerRequest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CycleWorkerRequest.class);
 
     @JsonProperty("request")
     private String request;

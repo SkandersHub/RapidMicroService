@@ -17,12 +17,12 @@
 package com.skanders.rms.util.worker;
 
 import com.skanders.rms.util.worker.def.WorkerState;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 abstract class Worker extends Thread
 {
-    private static final Logger LOG = LogManager.getLogger(Worker.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Worker.class);
 
     private static volatile Integer threadCount = 0;
     Integer threadID;

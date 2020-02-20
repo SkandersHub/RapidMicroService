@@ -24,8 +24,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skanders.rms.def.verify.RMSVerify;
 import com.skanders.rms.util.result.Result;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -37,7 +37,7 @@ import java.util.Objects;
 @JsonInclude(Include.NON_NULL)
 public abstract class ResponseModel
 {
-    private static final Logger LOG = LogManager.getLogger(ResponseModel.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResponseModel.class);
 
     @JsonProperty("result")
     private Result result;

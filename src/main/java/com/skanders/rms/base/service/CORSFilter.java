@@ -18,8 +18,8 @@ package com.skanders.rms.base.service;
 
 import com.skanders.rms.base.config.RMSConfig;
 import com.skanders.rms.def.code.HTTPMethod;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -33,7 +33,7 @@ import java.util.List;
 
 public class CORSFilter implements ContainerRequestFilter, ContainerResponseFilter
 {
-    private static final Logger LOG = LogManager.getLogger(CORSFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CORSFilter.class);
 
     private enum CORSType { NON_VALID_CORS, ACTUAL, NON_VALID_PREFLIGHT, PREFLIGHT }
 

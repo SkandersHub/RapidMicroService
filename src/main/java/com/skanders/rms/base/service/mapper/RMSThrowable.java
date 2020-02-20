@@ -16,8 +16,8 @@
 
 package com.skanders.rms.base.service.mapper;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -25,12 +25,12 @@ import javax.ws.rs.ext.ExceptionMapper;
 
 public class RMSThrowable implements ExceptionMapper<Throwable>
 {
-    private static final Logger LOG = LogManager.getLogger(RMSThrowable.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RMSThrowable.class);
 
     @Override
     public Response toResponse(Throwable e)
     {
-        LOG.error("Incoming Request raised an \'{}\' exception, caused by \'{}\'.", e.getClass(), e.getMessage());
+        LOG.error("Incoming Request raised an '{}' exception, caused by '{}'.", e.getClass(), e.getMessage());
         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
 }

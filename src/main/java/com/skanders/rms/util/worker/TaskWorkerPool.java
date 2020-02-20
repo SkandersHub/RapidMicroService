@@ -17,8 +17,8 @@
 package com.skanders.rms.util.worker;
 
 import com.skanders.rms.util.worker.def.Task;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
@@ -26,7 +26,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class TaskWorkerPool
 {
-    private static final Logger LOG = LogManager.getLogger(TaskWorkerPool.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TaskWorkerPool.class);
 
     private ArrayList<TaskWorker> taskWorkers;
     private BlockingQueue<Task> taskQueue;

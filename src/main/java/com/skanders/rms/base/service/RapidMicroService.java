@@ -21,10 +21,10 @@ package com.skanders.rms.base.service;
 import com.skanders.rms.base.config.RMSConfig;
 import com.skanders.rms.def.exception.RMSException;
 import com.skanders.rms.def.verify.RMSVerify;
-import com.skanders.rms.def.logger.Log;
+import com.skanders.rms.def.logger.Pattern;
 import com.skanders.rms.util.connectionpool.PoolManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.glassfish.grizzly.GrizzlyFuture;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.NetworkListener;
@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class RapidMicroService
 {
-    private static final Logger LOG = LogManager.getLogger(RapidMicroService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RapidMicroService.class);
 
     private PoolManager poolManager;
     private HttpServer server;
@@ -59,7 +59,7 @@ public abstract class RapidMicroService
         RMSVerify.checkNull(config,       "config cannot be null");
         RMSVerify.checkNull(resourcePath, "resourcePath cannot be null");
 
-        LOG.info(Log.INIT, "RapidMicroService");
+        LOG.info(Pattern.INIT, "RapidMicroService");
 
         if (config.isDbService())
             initConnectionPool(config);
@@ -72,7 +72,7 @@ public abstract class RapidMicroService
         else
             initHTTPServer(config, rmsResourceConfig);
 
-        LOG.info(Log.INIT_DONE, "RapidMicroService");
+        LOG.info(Pattern.INIT_DONE, "RapidMicroService");
     }
 
     /**
@@ -87,7 +87,7 @@ public abstract class RapidMicroService
         RMSVerify.checkNull(config,         "config cannot be null");
         RMSVerify.checkNull(resourceConfig, "resourceConfig cannot be null");
 
-        LOG.info(Log.INIT, "RapidMicroService");
+        LOG.info(Pattern.INIT, "RapidMicroService");
 
         if (config.isDbService())
             initConnectionPool(config);
@@ -99,7 +99,7 @@ public abstract class RapidMicroService
         else
             initHTTPServer(config, rmsResourceConfig);
 
-        LOG.info(Log.INIT_DONE, "RapidMicroService");
+        LOG.info(Pattern.INIT_DONE, "RapidMicroService");
     }
 
     /**
@@ -120,7 +120,7 @@ public abstract class RapidMicroService
         RMSVerify.checkNull(urlPattern,  "urlPattern cannot be null");
         RMSVerify.checkNull(app,         "app cannot be null");
 
-        LOG.info(Log.INIT, "WebSocket Attachment");
+        LOG.info(Pattern.INIT, "WebSocket Attachment");
 
         WebSocketAddOn webSocketAddOn = new WebSocketAddOn();
 
@@ -129,7 +129,7 @@ public abstract class RapidMicroService
 
         WebSocketEngine.getEngine().register(contextPath, urlPattern, app);
 
-        LOG.info(Log.INIT_DONE, "WebSocket Attachment");
+        LOG.info(Pattern.INIT_DONE, "WebSocket Attachment");
     }
 
     /**
@@ -137,13 +137,13 @@ public abstract class RapidMicroService
      */
     public void start()
     {
-        LOG.trace(Log.ENTER, "Grizzly Server Start");
+        LOG.trace(Pattern.ENTER, "Grizzly Server Start");
 
         try {
             server.start();
 
         } catch (IOException e) {
-            LOG.error(Log.EXIT_FAIL, "Grizzly Server Start", e.getClass(), e.getMessage());
+            LOG.error(Pattern.EXIT_FAIL, "Grizzly Server Start", e.getClass(), e.getMessage());
 
             throw new RMSException("Server failed to start: IOException");
 
@@ -157,7 +157,7 @@ public abstract class RapidMicroService
      */
     public GrizzlyFuture<HttpServer> shutdown()
     {
-        LOG.trace(Log.ENTER, "Grizzly Server Shutdown");
+        LOG.trace(Pattern.ENTER, "Grizzly Server Shutdown");
 
         return server.shutdown();
     }
@@ -171,7 +171,7 @@ public abstract class RapidMicroService
      */
     public GrizzlyFuture<HttpServer> shutdown(long gracePeriod, TimeUnit timeUnit)
     {
-        LOG.trace(Log.ENTER, "Grizzly Server Shutdown");
+        LOG.trace(Pattern.ENTER, "Grizzly Server Shutdown");
 
         return server.shutdown(gracePeriod, timeUnit);
     }
@@ -182,7 +182,7 @@ public abstract class RapidMicroService
      */
     public void shutdownNow()
     {
-        LOG.trace(Log.ENTER, "Grizzly Server Shutdown");
+        LOG.trace(Pattern.ENTER, "Grizzly Server Shutdown");
 
         server.shutdown();
     }
@@ -197,14 +197,14 @@ public abstract class RapidMicroService
      */
     private void initConnectionPool(@NotNull RMSConfig config)
     {
-        LOG.info(Log.INIT, "Connection Pool");
+        LOG.info(Pattern.INIT, "Connection Pool");
 
         if (config.isDbTypeUrl())
             poolManager = PoolManager.withJdbcUrl(config);
         else
             poolManager = PoolManager.withDriver(config);
 
-        LOG.info(Log.INIT_DONE, "Connection Pool");
+        LOG.info(Pattern.INIT_DONE, "Connection Pool");
     }
 
     /**
@@ -217,14 +217,14 @@ public abstract class RapidMicroService
      */
     private void initHTTPServer(@NotNull RMSConfig config, @NotNull RMSResourceConfig rmsResourceConfig)
     {
-        LOG.info(Log.INIT, "HTTP Server");
+        LOG.info(Pattern.INIT, "HTTP Server");
 
         URI uri = config.buildServiceUri();
         LOG.info("HTTP Server URI: " + uri);
 
         server = GrizzlyHttpServerFactory.createHttpServer(uri, rmsResourceConfig, false);
 
-        LOG.info(Log.INIT_DONE, "HTTP Server");
+        LOG.info(Pattern.INIT_DONE, "HTTP Server");
     }
 
     /**
@@ -237,7 +237,7 @@ public abstract class RapidMicroService
      */
     private void initHTTPSecureServer(@NotNull RMSConfig config, @NotNull RMSResourceConfig rmsResourceConfig)
     {
-        LOG.info(Log.INIT, "HTTP Secure Server");
+        LOG.info(Pattern.INIT, "HTTP Secure Server");
 
         URI uri = config.buildServiceUri();
         LOG.info("HTTP Secure Server URI: " + uri);
@@ -246,7 +246,7 @@ public abstract class RapidMicroService
 
         server = GrizzlyHttpServerFactory.createHttpServer(uri, rmsResourceConfig, true, sslEngineConfigurator, false);
 
-        LOG.info(Log.INIT_DONE, "HTTP Secure Server");
+        LOG.info(Pattern.INIT_DONE, "HTTP Secure Server");
     }
 
     /**

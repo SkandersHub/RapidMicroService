@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.skanders.rms.def.exception.RMSException;
 import com.skanders.rms.def.verify.RMSVerify;
 import com.skanders.rms.util.builder.ModelBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.iv.RandomIvGenerator;
 
@@ -36,7 +36,7 @@ import java.util.HashMap;
 
 public class RMSProperties
 {
-    private static final Logger LOG = LogManager.getLogger(RMSProperties.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RMSProperties.class);
 
     private static final String PATH_DELIM = "\\.";
     private static final String ENCRYPTED_VALUE_LABEL = "enc=";

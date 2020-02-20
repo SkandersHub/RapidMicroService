@@ -19,15 +19,15 @@
 package com.skanders.rms.util.connectionpool;
 
 import com.skanders.rms.def.verify.RMSVerify;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.validation.constraints.NotNull;
 import java.sql.ResultSet;
 
 public class SQLResult implements AutoCloseable
 {
-    private static final Logger LOG = LogManager.getLogger(SQLResult.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SQLResult.class);
 
     private QueryManager queryManager;
     private ResultSet resultSet;

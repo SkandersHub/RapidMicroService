@@ -26,12 +26,12 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.skanders.rms.def.logger.Log;
+import com.skanders.rms.def.logger.Pattern;
 import com.skanders.rms.util.result.RMSResult;
 import com.skanders.rms.util.result.Result;
 import com.skanders.rms.util.result.Resulted;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +39,7 @@ import java.io.InputStream;
 
 public class ModelBuilder
 {
-    private static final Logger LOG = LogManager.getLogger(ModelBuilder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ModelBuilder.class);
 
     private static final ObjectMapper JSON_MAPPER;
     private static final ObjectMapper YAML_MAPPER;
@@ -137,7 +137,7 @@ public class ModelBuilder
             return Resulted.inValue(reader.readValue(inputStream));
 
         } catch (IOException e) {
-            LOG.error(Log.ERROR, e.getClass(), e.getMessage());
+            LOG.error(Pattern.ERROR, e.getClass(), e.getMessage());
             return Resulted.inResult(convert(e));
 
         }
@@ -154,7 +154,7 @@ public class ModelBuilder
             return Resulted.inValue(reader.readValue(fileName));
 
         } catch (IOException e) {
-            LOG.error(Log.ERROR, e.getClass(), e.getMessage());
+            LOG.error(Pattern.ERROR, e.getClass(), e.getMessage());
             return Resulted.inResult(convert(e));
 
         }
@@ -171,7 +171,7 @@ public class ModelBuilder
             return Resulted.inValue(reader.readValue(text));
 
         } catch (IOException e) {
-            LOG.error(Log.ERROR, e.getClass(), e.getMessage());
+            LOG.error(Pattern.ERROR, e.getClass(), e.getMessage());
             return Resulted.inResult(convert(e));
 
         }

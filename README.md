@@ -12,13 +12,13 @@ Maven:
 <dependency>
     <groupId>com.skanders.rms</groupId>
     <artifactId>rms</artifactId>
-    <version>0.5.2</version>
+    <version>0.5.3</version>
 </dependency>
 ~~~
 
 Gradle:
 ~~~javascript
-implementation 'com.skanders.rms:rms:0.5.2'
+implementation 'com.skanders.rms:rms:0.5.3'
 ~~~
 
 ## 
@@ -463,8 +463,7 @@ public void getAllUsersOfLevel(Integer level)
 - [Jackson Dataformat YAML](https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml)
 - [Jackson Dataformat XML](https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml)
 - [HikariCP](https://mvnrepository.com/artifact/com.zaxxer/HikariCP)
-- [Log4j Core](https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core)
-- [Log4j Api](https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api)
+- [SLF4J Api](https://mvnrepository.com/artifact/org.slf4j/slf4j-api)
 - [Javax WS RS api](https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api)
 - [Jaxb API](https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api)
 - [Google Guava](https://mvnrepository.com/artifact/com.google.guava/guava)

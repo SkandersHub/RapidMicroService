@@ -17,9 +17,9 @@
 package com.skanders.rms.util.arg;
 
 import com.skanders.rms.def.exception.RMSException;
-import com.skanders.rms.def.logger.Log;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.skanders.rms.def.logger.Pattern;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,7 +30,7 @@ import java.util.Hashtable;
 
 public class ArgFile implements AutoCloseable
 {
-    private static final Logger LOG = LogManager.getLogger(ArgFile.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ArgFile.class);
 
     private static final   char EMPTY_CHAR   = '\u0000';
 
@@ -112,11 +112,11 @@ public class ArgFile implements AutoCloseable
             return new ArgFile(argTable);
 
         } catch (FileNotFoundException e) {
-            LOG.error(Log.ERROR, e.getCause(), e.getMessage());
+            LOG.error(Pattern.ERROR, e.getCause(), e.getMessage());
             throw new RMSException("Failed to find Args File");
 
         } catch (IOException e) {
-            LOG.error(Log.ERROR, e.getCause(), e.getMessage());
+            LOG.error(Pattern.ERROR, e.getCause(), e.getMessage());
             throw new RMSException("Failed to read Args File");
 
         } finally {

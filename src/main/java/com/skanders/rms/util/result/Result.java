@@ -23,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skanders.rms.base.model.ResponseModel;
 import com.skanders.rms.def.exception.RMSException;
 import com.skanders.rms.def.verify.RMSVerify;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -34,7 +34,7 @@ import java.util.Objects;
 
 public class Result
 {
-    private static final Logger LOG = LogManager.getLogger(Result.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Result.class);
 
     public static final Result VALID;
     public static final Result UNDECLARED;

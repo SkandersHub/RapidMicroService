@@ -19,8 +19,8 @@ package com.skanders.rms.base.service.mapper;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.skanders.rms.base.model.ResponseModel;
 import com.skanders.rms.util.result.RMSResult;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -28,7 +28,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 
 public class RMSJsonMappingException implements ExceptionMapper<JsonMappingException>
 {
-    private static final Logger LOG = LogManager.getLogger(RMSJsonMappingException.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RMSJsonMappingException.class);
 
     private static class JsonMappingResult extends ResponseModel
     {

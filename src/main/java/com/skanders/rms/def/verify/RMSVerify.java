@@ -19,13 +19,13 @@
 package com.skanders.rms.def.verify;
 
 import com.skanders.rms.def.exception.RMSException;
-import com.skanders.rms.def.logger.Log;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.skanders.rms.def.logger.Pattern;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 public class RMSVerify
 {
-    private static final Logger LOG = LogManager.getLogger(RMSVerify.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RMSVerify.class);
 
     public static void checkNull(Object ob)
     {
@@ -59,7 +59,7 @@ public class RMSVerify
 
         } catch (Exception e) {
             LOG.error("SEVERE ERROR: Exception when trying to close");
-            LOG.error(Log.ERROR, e.getClass(), e.getMessage());
+            LOG.error(Pattern.ERROR, e.getClass(), e.getMessage());
 
         }
     }

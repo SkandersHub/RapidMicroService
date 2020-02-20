@@ -20,8 +20,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.skanders.rms.def.verify.RMSVerify;
 import com.skanders.rms.util.result.RMSResult;
 import com.skanders.rms.util.result.Resulted;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -30,7 +30,7 @@ import java.util.function.Function;
 
 public class FromJson
 {
-    private static final Logger LOG = LogManager.getLogger(FromJson.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FromJson.class);
 
     private static final String PATH_DELIM = "\\.";
 

@@ -19,16 +19,16 @@
 package com.skanders.rms.util.result;
 
 import com.skanders.rms.base.model.ResponseModel;
-import com.skanders.rms.def.logger.Log;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.skanders.rms.def.logger.Pattern;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 public class Resulted<T> implements AutoCloseable
 {
-    private static final Logger LOG = LogManager.getLogger(Resulted.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Resulted.class);
 
     private final T value;
     private Result result;
@@ -72,7 +72,7 @@ public class Resulted<T> implements AutoCloseable
     public boolean notValid()
     {
         if (this.result != Result.VALID) {
-            LOG.trace(Log.EXIT_EARLY, "Handler encountered non valid result", this.result.message());
+            LOG.trace(Pattern.EXIT_EARLY, "Handler encountered non valid result", this.result.message());
             return true;
         }
 
@@ -82,7 +82,7 @@ public class Resulted<T> implements AutoCloseable
     public boolean notValid(ResponseModel responseModel)
     {
         if (this.result != Result.VALID) {
-            LOG.trace(Log.EXIT_EARLY, "Handler encountered non valid result", this.result.message());
+            LOG.trace(Pattern.EXIT_EARLY, "Handler encountered non valid result", this.result.message());
             responseModel.setResult(result);
             return true;
         }
@@ -110,7 +110,7 @@ public class Resulted<T> implements AutoCloseable
 
         } catch (Exception e) {
             LOG.error("SEVERE ERROR: Exception when trying to close");
-            LOG.error(Log.ERROR, e.getClass(), e.getMessage());
+            LOG.error(Pattern.ERROR, e.getClass(), e.getMessage());
 
         }
     }

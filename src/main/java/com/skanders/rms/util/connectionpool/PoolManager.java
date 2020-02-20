@@ -20,11 +20,11 @@ package com.skanders.rms.util.connectionpool;
 
 
 import com.skanders.rms.base.config.RMSConfig;
-import com.skanders.rms.def.logger.Log;
+import com.skanders.rms.def.logger.Pattern;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,20 +33,20 @@ import java.util.HashMap;
 
 public class PoolManager
 {
-    private static final Logger LOG = LogManager.getLogger(PoolManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PoolManager.class);
 
     private HikariDataSource hikariDataSource;
 
     private PoolManager(HikariConfig config)
     {
-        LOG.trace(Log.ENTER, "Connection Pool Constructor");
+        LOG.trace(Pattern.ENTER, "Connection Pool Constructor");
 
         hikariDataSource = new HikariDataSource(config);
     }
 
     public static PoolManager withDriver(RMSConfig config)
     {
-        LOG.trace(Log.ENTER, "Connection Pool Constructor from Driver");
+        LOG.trace(Pattern.ENTER, "Connection Pool Constructor from Driver");
 
         HikariConfig hikariConfig = new HikariConfig();
 
@@ -60,7 +60,7 @@ public class PoolManager
 
     public static PoolManager withJdbcUrl(RMSConfig config)
     {
-        LOG.trace(Log.ENTER, "Connection Pool Constructor from Driver");
+        LOG.trace(Pattern.ENTER, "Connection Pool Constructor from Driver");
 
         HikariConfig hikariConfig = new HikariConfig();
 
@@ -94,7 +94,7 @@ public class PoolManager
             String driver, String hostname, int port, String name,
             String username, String password, long maxLifetime,  int maxPoolSize)
     {
-        LOG.trace(Log.ENTER, "Connection Pool Constructor from Driver");
+        LOG.trace(Pattern.ENTER, "Connection Pool Constructor from Driver");
 
         HikariConfig hikariConfig = new HikariConfig();
 
@@ -110,7 +110,7 @@ public class PoolManager
             String url,
             String username, String password, long maxLifetime,  int maxPoolSize )
     {
-        LOG.trace(Log.ENTER, "Connection Pool Constructor from Driver");
+        LOG.trace(Pattern.ENTER, "Connection Pool Constructor from Driver");
 
         HikariConfig hikariConfig = new HikariConfig();
 
@@ -134,11 +134,9 @@ public class PoolManager
     QueryManager createQuery(String query)
             throws SQLException
     {
-        LOG.trace(Log.ENTER, "Request Connection");
+        LOG.trace(Pattern.ENTER, "Request Connection");
 
-        LOG.trace(Log.ATTEMPT, "Request Connection");
         Connection connection = hikariDataSource.getConnection();
-        LOG.trace(Log.ATTEMPT_DONE, "Request Connection");
 
         PreparedStatement preparedStatement;
 
@@ -156,8 +154,6 @@ public class PoolManager
 
     void releaseCon(Connection connection)
     {
-        LOG.trace(Log.ATTEMPT, "Release Connection");
         hikariDataSource.evictConnection(connection);
-        LOG.trace(Log.ATTEMPT_DONE, "Release Connection");
     }
 }

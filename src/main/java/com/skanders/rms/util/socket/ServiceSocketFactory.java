@@ -51,7 +51,7 @@ public class ServiceSocketFactory
      */
     public static ServiceSocketFactory createFactory(URI uri, MediaType requestType)
     {
-        return new ServiceSocketFactory(uri, requestType, DEFAULT_CLIENT);
+        return new ServiceSocketFactory(uri, requestType);
     }
 
     /**
@@ -66,9 +66,9 @@ public class ServiceSocketFactory
      */
     public static ServiceSocketFactory createFactory(String uri, MediaType requestType)
     {
-
-        return new ServiceSocketFactory(URI.create(uri), requestType, DEFAULT_CLIENT);
+        return new ServiceSocketFactory(URI.create(uri), requestType);
     }
+
 
     /**
      * Creates an instance of ServiceSocketFactory
@@ -76,11 +76,11 @@ public class ServiceSocketFactory
      * @param uri         URL of the target
      * @param requestType MediaType of response from the target
      */
-    private ServiceSocketFactory(URI uri, MediaType requestType, Client client)
+    private ServiceSocketFactory(URI uri, MediaType requestType)
     {
         this.uri = uri;
         this.requestType = requestType;
-        this.socketClient = client;
+        this.socketClient = DEFAULT_CLIENT;
     }
 
     /**
@@ -113,6 +113,23 @@ public class ServiceSocketFactory
 
         return this;
     }
+
+
+    /**
+     * This ServiceSocketFactory would use the user given
+     * {@link Client} allowing the caller complete control
+     * over its settings.
+     *
+     * @param client an instance of Client
+     * @return returns this instance of ServiceSocketFactory
+     */
+    public ServiceSocketFactory withClient(Client client)
+    {
+        socketClient = client;
+
+        return this;
+    }
+
 
     /**
      * If the same {@link SSLContext} is being used between multiple
