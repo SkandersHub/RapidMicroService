@@ -15,10 +15,9 @@
  */
 
 
-
 package com.skanders.rms.util.socket;
 
-import org.glassfish.jersey.jackson.JacksonFeature;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.Client;
@@ -30,9 +29,8 @@ public class ServiceSocketFactory
 {
     private static final Client DEFAULT_CLIENT;
 
-    static
-    {
-        DEFAULT_CLIENT = ClientBuilder.newClient().register(JacksonFeature.class);
+    static {
+        DEFAULT_CLIENT = ClientBuilder.newClient().register(JacksonJsonProvider.class);
     }
 
     private final URI uri;
@@ -41,9 +39,9 @@ public class ServiceSocketFactory
 
     /**
      * Creates and instance of ServiceSocketFactory.
-     *
-     * On default all ServiceSocketFactory's use the default static
-     * {@link Client}.
+     * <p>
+     * On default all ServiceSocketFactory's use the default static {@link
+     * Client}.
      *
      * @param uri         URL of the target
      * @param requestType {@link MediaType} type of response from the target
@@ -56,9 +54,9 @@ public class ServiceSocketFactory
 
     /**
      * Creates and instance of ServiceSocketFactory.
-     *
-     * On default all ServiceSocketFactory's use the default static
-     * {@link Client}.
+     * <p>
+     * On default all ServiceSocketFactory's use the default static {@link
+     * Client}.
      *
      * @param uri         the string URL of the target
      * @param requestType {@link MediaType} type of response from the target
@@ -71,8 +69,8 @@ public class ServiceSocketFactory
 
 
     /**
-     * Creates an instance of ServiceSocketFactory
-     *`
+     * Creates an instance of ServiceSocketFactory `
+     *
      * @param uri         URL of the target
      * @param requestType MediaType of response from the target
      */
@@ -96,12 +94,12 @@ public class ServiceSocketFactory
 
 
     /**
-     * Creates a new {@link Client} that manages the specific
-     * {@link SSLContext}.
-     *
-     * This ServiceSocketFactory would use its own instance of
-     * {@link Client} allowing callers to create multiple
-     * ServiceSocketFactory's with different {@link SSLContext}'s
+     * Creates a new {@link Client} that manages the specific {@link
+     * SSLContext}.
+     * <p>
+     * This ServiceSocketFactory would use its own instance of {@link Client}
+     * allowing callers to create multiple ServiceSocketFactory's with different
+     * {@link SSLContext}'s
      *
      * @param sslContext an instance of SSLContext to attach to Client
      * @return returns this instance of ServiceSocketFactory
@@ -109,16 +107,15 @@ public class ServiceSocketFactory
     public ServiceSocketFactory withSSLContext(SSLContext sslContext)
     {
         socketClient = ClientBuilder.newBuilder()
-                .sslContext(sslContext).build().register(JacksonFeature.class);
+                .sslContext(sslContext).build().register(JacksonJsonProvider.class);
 
         return this;
     }
 
 
     /**
-     * This ServiceSocketFactory would use the user given
-     * {@link Client} allowing the caller complete control
-     * over its settings.
+     * This ServiceSocketFactory would use the user given {@link Client}
+     * allowing the caller complete control over its settings.
      *
      * @param client an instance of Client
      * @return returns this instance of ServiceSocketFactory
@@ -133,8 +130,8 @@ public class ServiceSocketFactory
 
     /**
      * If the same {@link SSLContext} is being used between multiple
-     * ServiceSocketFactory's then this function will use the
-     * supplied ServiceSocketFactory's {@link Client}
+     * ServiceSocketFactory's then this function will use the supplied
+     * ServiceSocketFactory's {@link Client}
      *
      * @param socketFactory an instance of SSLContext to attach to Client
      * @return returns this instance of ServiceSocketFactory

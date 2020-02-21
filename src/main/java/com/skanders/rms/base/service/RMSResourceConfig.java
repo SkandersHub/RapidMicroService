@@ -16,18 +16,18 @@
 
 package com.skanders.rms.base.service;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.skanders.rms.base.config.RMSConfig;
 import com.skanders.rms.base.service.mapper.RMSJsonMappingException;
 import com.skanders.rms.base.service.mapper.RMSJsonParseException;
 import com.skanders.rms.base.service.mapper.RMSThrowable;
-import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 public class RMSResourceConfig extends ResourceConfig
 {
     private static final String DISABLE_WADL = "jersey.config.server.wadl.disableWadl";
 
-    public RMSResourceConfig(String ... resourcePath)
+    public RMSResourceConfig(String... resourcePath)
     {
         super();
 
@@ -36,7 +36,7 @@ public class RMSResourceConfig extends ResourceConfig
 
     RMSResourceConfig withRMSSettings(RMSConfig config)
     {
-        register(JacksonFeature.class);
+        register(JacksonJsonProvider.class);
         register(RMSJsonMappingException.class);
         register(RMSJsonParseException.class);
         register(RMSThrowable.class);
