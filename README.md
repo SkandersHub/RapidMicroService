@@ -458,15 +458,15 @@ public void getAllUsersOfLevel(Integer level)
 
 ### Compile
 - [Jersey Container Grizzly2 Http](https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-grizzly2-http)
-- [Jackson JAXRS JSON](https://mvnrepository.com/artifact/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider)
 - [Grizzly WebSockets](https://mvnrepository.com/artifact/org.glassfish.grizzly/grizzly-websockets)
+- [Jackson Databind](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind)
+- [Jackson JAXRS JSON](https://mvnrepository.com/artifact/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider)
 - [Jackson Dataformat YAML](https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml)
 - [Jackson Dataformat XML](https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml)
 - [HikariCP](https://mvnrepository.com/artifact/com.zaxxer/HikariCP)
 - [Google Guava](https://mvnrepository.com/artifact/com.google.guava/guava)
 - [JASYPT](https://mvnrepository.com/artifact/org.jasypt/jasypt)
 ### Runtime
-- [Jackson Databind](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind)
 - [Jersey Inject](https://mvnrepository.com/artifact/org.glassfish.jersey.inject/jersey-hk2)
 - [Grizzly Servlet Server](https://mvnrepository.com/artifact/org.glassfish.grizzly/grizzly-http-servlet-server)
 - [Javax WS RS api](https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api)
