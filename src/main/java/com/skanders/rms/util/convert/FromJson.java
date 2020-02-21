@@ -20,10 +20,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.skanders.rms.def.verify.RMSVerify;
 import com.skanders.rms.util.result.RMSResult;
 import com.skanders.rms.util.result.Resulted;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.function.Function;
@@ -34,7 +34,7 @@ public class FromJson
 
     private static final String PATH_DELIM = "\\.";
 
-    public static <T> ArrayList<T> toArray(@NotNull JsonNode node, String path, Function<JsonNode, T> getter)
+    public static <T> ArrayList<T> toArray(@Nonnull JsonNode node, String path, Function<JsonNode, T> getter)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -43,7 +43,7 @@ public class FromJson
         return value == null ? null : toArray(value, getter);
     }
 
-    public static <T> ArrayList<T> toArray(@NotNull JsonNode node, Function<JsonNode, T> getter)
+    public static <T> ArrayList<T> toArray(@Nonnull JsonNode node, Function<JsonNode, T> getter)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -57,7 +57,7 @@ public class FromJson
         return list;
     }
 
-    public static Resulted<String> toSafeString(@NotNull JsonNode node, String path)
+    public static Resulted<String> toSafeString(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -73,7 +73,7 @@ public class FromJson
     }
 
 
-    public static Resulted<Integer> toSafeInteger(@NotNull JsonNode node, String path)
+    public static Resulted<Integer> toSafeInteger(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -88,7 +88,7 @@ public class FromJson
                 Resulted.inValue(converted);
     }
 
-    public static Resulted<Long> toSafeLong(@NotNull JsonNode node, String path)
+    public static Resulted<Long> toSafeLong(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -104,7 +104,7 @@ public class FromJson
     }
 
 
-    public static Resulted<Double> toSafeDouble(@NotNull JsonNode node, String path)
+    public static Resulted<Double> toSafeDouble(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -119,7 +119,7 @@ public class FromJson
                 Resulted.inValue(converted);
     }
 
-    public static Resulted<BigDecimal> toSafeBigDecimal(@NotNull JsonNode node, String path)
+    public static Resulted<BigDecimal> toSafeBigDecimal(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -135,7 +135,7 @@ public class FromJson
     }
 
 
-    public static String toString(@NotNull JsonNode node, String path)
+    public static String toString(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -145,7 +145,7 @@ public class FromJson
     }
 
 
-    public static Integer toInteger(@NotNull JsonNode node, String path)
+    public static Integer toInteger(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -154,7 +154,7 @@ public class FromJson
         return value == null ? null : toInteger(value);
     }
 
-    public static Long toLong(@NotNull JsonNode node, String path)
+    public static Long toLong(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -164,7 +164,7 @@ public class FromJson
     }
 
 
-    public static Double toDouble(@NotNull JsonNode node, String path)
+    public static Double toDouble(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -173,7 +173,7 @@ public class FromJson
         return value == null ? null : toDouble(value);
     }
 
-    public static BigDecimal toBigDecimal(@NotNull JsonNode node, String path)
+    public static BigDecimal toBigDecimal(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -182,7 +182,7 @@ public class FromJson
         return value == null ? null : toBigDecimal(value);
     }
 
-    public static String toString(@NotNull JsonNode node)
+    public static String toString(@Nonnull JsonNode node)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -194,7 +194,7 @@ public class FromJson
         return converted;
     }
 
-    public static Integer toInteger(@NotNull JsonNode node)
+    public static Integer toInteger(@Nonnull JsonNode node)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -206,7 +206,7 @@ public class FromJson
         return converted;
     }
 
-    public static Long toLong(@NotNull JsonNode node)
+    public static Long toLong(@Nonnull JsonNode node)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -218,7 +218,7 @@ public class FromJson
         return converted;
     }
 
-    public static Double toDouble(@NotNull JsonNode node)
+    public static Double toDouble(@Nonnull JsonNode node)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -230,7 +230,7 @@ public class FromJson
         return converted;
     }
 
-    public static BigDecimal toBigDecimal(@NotNull JsonNode node)
+    public static BigDecimal toBigDecimal(@Nonnull JsonNode node)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -242,7 +242,7 @@ public class FromJson
         return converted;
     }
 
-    public static JsonNode toNode(@NotNull JsonNode node, String path)
+    public static JsonNode toNode(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -250,8 +250,7 @@ public class FromJson
 
         JsonNode target = node;
 
-        for (String nodePath : paths)
-        {
+        for (String nodePath : paths) {
             target = target.path(nodePath);
 
             if (target.isMissingNode()) {
@@ -263,7 +262,7 @@ public class FromJson
         return target;
     }
 
-    public static Resulted<JsonNode> toSafeNode(@NotNull JsonNode node, String path)
+    public static Resulted<JsonNode> toSafeNode(@Nonnull JsonNode node, String path)
     {
         RMSVerify.checkNull(node, "node cannot be null");
 
@@ -271,8 +270,7 @@ public class FromJson
 
         JsonNode target = node;
 
-        for (String nodePath : paths)
-        {
+        for (String nodePath : paths) {
             target = target.path(nodePath);
 
             if (target.isMissingNode()) {

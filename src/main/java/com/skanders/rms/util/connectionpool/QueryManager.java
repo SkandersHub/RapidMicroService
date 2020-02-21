@@ -15,12 +15,11 @@
  */
 
 
-
 package com.skanders.rms.util.connectionpool;
 
 import com.skanders.rms.def.verify.RMSVerify;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,11 +45,11 @@ class QueryManager implements AutoCloseable
     }
 
     static QueryManager newManager(
-            @NotNull PoolManager poolManager, @NotNull Connection connection,
-            @NotNull PreparedStatement preparedStatement)
+            @Nonnull PoolManager poolManager, @Nonnull Connection connection,
+            @Nonnull PreparedStatement preparedStatement)
     {
         RMSVerify.checkNull(poolManager, "poolManager Cannot be Null");
-        RMSVerify.checkNull(connection,  "connection Cannot be Null");
+        RMSVerify.checkNull(connection, "connection Cannot be Null");
 
         return new QueryManager(poolManager, connection, preparedStatement);
     }

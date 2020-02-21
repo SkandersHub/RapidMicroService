@@ -26,7 +26,7 @@ import org.jasypt.iv.RandomIvGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -91,7 +91,7 @@ public class RMSProperties
      *                           location
      * @return an instance of RMSProperties
      */
-    public static RMSProperties fromPlain(@NotNull String propertiesFileName)
+    public static RMSProperties fromPlain(@Nonnull String propertiesFileName)
     {
         RMSVerify.checkNull(propertiesFileName, "propertiesFileName cannot be null");
 
@@ -110,7 +110,7 @@ public class RMSProperties
      * @param password           password to decrypt values
      * @return an instance of RMSProperties
      */
-    public static RMSProperties fromEncrypted(@NotNull String propertiesFileName, @NotNull String algorithm, @NotNull String password)
+    public static RMSProperties fromEncrypted(@Nonnull String propertiesFileName, @Nonnull String algorithm, @Nonnull String password)
     {
         RMSVerify.checkNull(propertiesFileName, "propertiesFileName cannot be null");
         RMSVerify.checkNull(algorithm, "algorithm cannot be null");
@@ -136,7 +136,7 @@ public class RMSProperties
      * @param passwordArr        password to decrypt values in a char array
      * @return an instance of RMSProperties
      */
-    public static RMSProperties fromEncrypted(@NotNull String propertiesFileName, @NotNull String algorithm, @NotNull char[] passwordArr)
+    public static RMSProperties fromEncrypted(@Nonnull String propertiesFileName, @Nonnull String algorithm, @Nonnull char[] passwordArr)
     {
         RMSVerify.checkNull(propertiesFileName, "propertiesFileName cannot be null");
         RMSVerify.checkNull(algorithm, "algorithm cannot be null");

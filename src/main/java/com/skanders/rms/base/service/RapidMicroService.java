@@ -15,16 +15,13 @@
  */
 
 
-
 package com.skanders.rms.base.service;
 
 import com.skanders.rms.base.config.RMSConfig;
 import com.skanders.rms.def.exception.RMSException;
-import com.skanders.rms.def.verify.RMSVerify;
 import com.skanders.rms.def.logger.Pattern;
+import com.skanders.rms.def.verify.RMSVerify;
 import com.skanders.rms.util.connectionpool.PoolManager;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.glassfish.grizzly.GrizzlyFuture;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.NetworkListener;
@@ -34,8 +31,10 @@ import org.glassfish.grizzly.websockets.WebSocketAddOn;
 import org.glassfish.grizzly.websockets.WebSocketApplication;
 import org.glassfish.grizzly.websockets.WebSocketEngine;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
@@ -52,11 +51,11 @@ public abstract class RapidMicroService
      *
      * @param config       a Config instance
      * @param resourcePath package names for jersey to find components
-     * @see   RMSConfig
+     * @see RMSConfig
      */
-    protected RapidMicroService(@NotNull RMSConfig config, @NotNull String ... resourcePath)
+    protected RapidMicroService(@Nonnull RMSConfig config, @Nonnull String... resourcePath)
     {
-        RMSVerify.checkNull(config,       "config cannot be null");
+        RMSVerify.checkNull(config, "config cannot be null");
         RMSVerify.checkNull(resourcePath, "resourcePath cannot be null");
 
         LOG.info(Pattern.INIT, "RapidMicroService");
@@ -80,11 +79,11 @@ public abstract class RapidMicroService
      *
      * @param config         a RMSConfig instance
      * @param resourceConfig a RMSResourceConfig instance
-     * @see   RMSConfig
+     * @see RMSConfig
      */
-    protected RapidMicroService(@NotNull RMSConfig config, @NotNull RMSResourceConfig resourceConfig)
+    protected RapidMicroService(@Nonnull RMSConfig config, @Nonnull RMSResourceConfig resourceConfig)
     {
-        RMSVerify.checkNull(config,         "config cannot be null");
+        RMSVerify.checkNull(config, "config cannot be null");
         RMSVerify.checkNull(resourceConfig, "resourceConfig cannot be null");
 
         LOG.info(Pattern.INIT, "RapidMicroService");
@@ -103,22 +102,22 @@ public abstract class RapidMicroService
     }
 
     /**
-     * Registers {@link WebSocketApplication} with the server at the
-     * given contextPath and urlPattern
+     * Registers {@link WebSocketApplication} with the server at the given
+     * contextPath and urlPattern
      *
      * @param contextPath the context path for the WebSocket
      * @param urlPattern  the url pattern for the WebSocket
      * @param app         an instance of WebSocketApplication
-     * @see   WebSocketApplication
+     * @see WebSocketApplication
      */
     public void registerWebSocket(
-            @NotNull String contextPath, @NotNull String urlPattern, @NotNull WebSocketApplication app)
+            @Nonnull String contextPath, @Nonnull String urlPattern, @Nonnull WebSocketApplication app)
     {
         RMSVerify.argument(server.isStarted(), "cannot add WebSocket after server has started!");
 
         RMSVerify.checkNull(contextPath, "config cannot be null");
-        RMSVerify.checkNull(urlPattern,  "urlPattern cannot be null");
-        RMSVerify.checkNull(app,         "app cannot be null");
+        RMSVerify.checkNull(urlPattern, "urlPattern cannot be null");
+        RMSVerify.checkNull(app, "app cannot be null");
 
         LOG.info(Pattern.INIT, "WebSocket Attachment");
 
@@ -165,7 +164,8 @@ public abstract class RapidMicroService
     /**
      * Shutdown server by calling {@link HttpServer#shutdown(long, TimeUnit)}
      *
-     * @param gracePeriod grace period to pass to HttpServer's shutdown function
+     * @param gracePeriod grace period to pass to HttpServer's shutdown
+     *                    function
      * @param timeUnit    time unit to pass to HttpServer's shutdown function
      * @return an instance of GrizzlyFuture
      */
@@ -178,7 +178,6 @@ public abstract class RapidMicroService
 
     /**
      * Shutdown server by calling {@link HttpServer#shutdownNow()}
-     *
      */
     public void shutdownNow()
     {
@@ -188,14 +187,14 @@ public abstract class RapidMicroService
     }
 
     /**
-     * Initializes the connection pool stored within the MicroService. Initializes
-     * using the type of connection stated in RMSConfig
+     * Initializes the connection pool stored within the MicroService.
+     * Initializes using the type of connection stated in RMSConfig
      *
      * @param config a RMSConfig instance
      * @see RMSConfig
      * @see PoolManager
      */
-    private void initConnectionPool(@NotNull RMSConfig config)
+    private void initConnectionPool(@Nonnull RMSConfig config)
     {
         LOG.info(Pattern.INIT, "Connection Pool");
 
@@ -208,14 +207,14 @@ public abstract class RapidMicroService
     }
 
     /**
-     * Creates a none-secure instance of the Grizzly server setting it to use Jackson
-     * and to find components in the given resourcePath
+     * Creates a none-secure instance of the Grizzly server setting it to use
+     * Jackson and to find components in the given resourcePath
      *
      * @param config            a RMSConfig instance
      * @param rmsResourceConfig a RMSResourceConfig instance
      * @see RMSConfig
      */
-    private void initHTTPServer(@NotNull RMSConfig config, @NotNull RMSResourceConfig rmsResourceConfig)
+    private void initHTTPServer(@Nonnull RMSConfig config, @Nonnull RMSResourceConfig rmsResourceConfig)
     {
         LOG.info(Pattern.INIT, "HTTP Server");
 
@@ -228,14 +227,14 @@ public abstract class RapidMicroService
     }
 
     /**
-     * Creates a secure instance of the Grizzly server setting it to use Jackson and to
-     * find components in the given resourcePath.
+     * Creates a secure instance of the Grizzly server setting it to use Jackson
+     * and to find components in the given resourcePath.
      *
      * @param config            a RMSConfig instance
      * @param rmsResourceConfig a RMSResourceConfig instance
      * @see RMSConfig
      */
-    private void initHTTPSecureServer(@NotNull RMSConfig config, @NotNull RMSResourceConfig rmsResourceConfig)
+    private void initHTTPSecureServer(@Nonnull RMSConfig config, @Nonnull RMSResourceConfig rmsResourceConfig)
     {
         LOG.info(Pattern.INIT, "HTTP Secure Server");
 
@@ -250,14 +249,15 @@ public abstract class RapidMicroService
     }
 
     /**
-     * Creates an instance of SSLEngineConfigurator with the KeyStore and TrustStore properties
-     * given in the RMSConfig
+     * Creates an instance of SSLEngineConfigurator with the KeyStore and
+     * TrustStore properties given in the RMSConfig
      *
      * @param config a RMSConfig instance
-     * @return an SSLEngineConfigurator with the KeyStore and TrustStore file and pass
+     * @return an SSLEngineConfigurator with the KeyStore and TrustStore file
+     * and pass
      * @see RMSConfig
      */
-    private SSLEngineConfigurator createSSLEngineConfigurator(@NotNull RMSConfig config)
+    private SSLEngineConfigurator createSSLEngineConfigurator(@Nonnull RMSConfig config)
     {
         SSLContextConfigurator sslContextConfigurator = new SSLContextConfigurator();
 

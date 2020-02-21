@@ -15,16 +15,15 @@
  */
 
 
-
 package com.skanders.rms.util.result;
 
 import com.skanders.rms.base.model.ResponseModel;
 import com.skanders.rms.def.logger.Pattern;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
 
 public class Resulted<T> implements AutoCloseable
 {
@@ -33,28 +32,28 @@ public class Resulted<T> implements AutoCloseable
     private final T value;
     private Result result;
 
-    private Resulted(@Nullable T value, @NotNull Result result)
+    private Resulted(@Nullable T value, @Nonnull Result result)
     {
         this.value = value;
         this.result = result;
     }
 
-    public static <T> Resulted<T> inValue(@NotNull T value)
+    public static <T> Resulted<T> inValue(@Nonnull T value)
     {
         return new Resulted<>(value, Result.VALID);
     }
 
-    public static <T> Resulted<T> inResult(@NotNull Result result)
+    public static <T> Resulted<T> inResult(@Nonnull Result result)
     {
         return new Resulted<>(null, result);
     }
 
-    public static <T> Resulted<T> inException(@NotNull Exception exception)
+    public static <T> Resulted<T> inException(@Nonnull Exception exception)
     {
         return new Resulted<>(null, Result.exception(exception));
     }
 
-    public static <T> Resulted<T> inResulted(@NotNull Resulted resulted)
+    public static <T> Resulted<T> inResulted(@Nonnull Resulted resulted)
     {
         return new Resulted<>(null, resulted.result);
     }

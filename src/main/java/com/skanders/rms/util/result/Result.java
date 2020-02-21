@@ -15,7 +15,6 @@
  */
 
 
-
 package com.skanders.rms.util.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,10 +22,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skanders.rms.base.model.ResponseModel;
 import com.skanders.rms.def.exception.RMSException;
 import com.skanders.rms.def.verify.RMSVerify;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -40,77 +39,78 @@ public class Result
     public static final Result UNDECLARED;
     public static final Result EXCEPTION;
 
-    static
-    {
-        VALID      = declare(1,  "Valid");
-        UNDECLARED = declare(0,  "Undeclared");
-        EXCEPTION  = declare(-1, "Something went wrong", Status.INTERNAL_SERVER_ERROR);
+    static {
+        VALID = declare(1, "Valid");
+        UNDECLARED = declare(0, "Undeclared");
+        EXCEPTION = declare(-1, "Something went wrong", Status.INTERNAL_SERVER_ERROR);
     }
 
     @JsonProperty("code")
     private Integer code;
     @JsonProperty("message")
-    private  String message;
+    private String message;
 
     @JsonIgnore
     private Status status;
     @JsonIgnore
     private Exception exception;
 
-    private Result(){}
+    private Result()
+    {
+    }
 
-    private Result(@NotNull Integer code, @NotNull String message)
+    private Result(@Nonnull Integer code, @Nonnull String message)
     {
         RMSVerify.checkNull(code, "code cannot be null");
         RMSVerify.checkNull(message, "message cannot be null");
 
-        this.code      = code;
-        this.message   = message;
-        this.status    = Status.OK;
+        this.code = code;
+        this.message = message;
+        this.status = Status.OK;
 
         this.exception = null;
     }
 
-    private Result(@NotNull Integer code, @NotNull String message, @NotNull Status status)
+    private Result(@Nonnull Integer code, @Nonnull String message, @Nonnull Status status)
     {
         RMSVerify.checkNull(code, "code cannot be null");
         RMSVerify.checkNull(message, "message cannot be null");
         RMSVerify.checkNull(status, "status cannot be null");
 
-        this.code      = code;
-        this.message   = message;
-        this.status    = status;
+        this.code = code;
+        this.message = message;
+        this.status = status;
 
         this.exception = null;
     }
 
-    private Result(@NotNull Exception exception)
+    private Result(@Nonnull Exception exception)
     {
         RMSVerify.checkNull(exception, "exception cannot be null");
 
-        this.code      = EXCEPTION.code;
-        this.message   = EXCEPTION.message;
-        this.status    = EXCEPTION.status;
+        this.code = EXCEPTION.code;
+        this.message = EXCEPTION.message;
+        this.status = EXCEPTION.status;
 
         this.exception = exception;
     }
 
-    public static Result declare(@NotNull Integer code, @NotNull String message)
+    public static Result declare(@Nonnull Integer code, @Nonnull String message)
     {
         return new Result(code, message);
     }
 
-    public static Result declare(@NotNull Integer code, @NotNull String message, @NotNull Status status)
+    public static Result declare(@Nonnull Integer code, @Nonnull String message, @Nonnull Status status)
     {
         return new Result(code, message, status);
     }
 
-    public static Result exception(@NotNull Exception exception)
+    public static Result exception(@Nonnull Exception exception)
     {
         return new Result(exception);
     }
 
-    public static Result exception(@NotNull String message)
+    public static Result exception(@Nonnull String message)
     {
         return new Result(new RMSException(message));
     }

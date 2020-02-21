@@ -18,7 +18,7 @@ package com.skanders.rms.util.worker.def;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 
 public class WorkerStatus
 {
@@ -27,9 +27,11 @@ public class WorkerStatus
     @JsonProperty("Status")
     private String status;
 
-    public WorkerStatus(){}
+    public WorkerStatus()
+    {
+    }
 
-    public WorkerStatus(@NotNull String name, @NotNull WorkerState state)
+    public WorkerStatus(@Nonnull String name, @Nonnull WorkerState state)
     {
         this.name = name;
         this.status = state.toString();

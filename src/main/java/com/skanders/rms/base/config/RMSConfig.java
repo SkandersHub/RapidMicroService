@@ -19,7 +19,7 @@ package com.skanders.rms.base.config;
 
 import com.skanders.rms.def.verify.RMSVerify;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.HashMap;
@@ -78,7 +78,7 @@ public class RMSConfig
      *
      * @param prop an instance of RMSProperties
      */
-    public RMSConfig(@NotNull RMSProperties prop)
+    public RMSConfig(@Nonnull RMSProperties prop)
     {
         RMSVerify.checkNull(prop, "prop cannot be null");
 
@@ -93,7 +93,7 @@ public class RMSConfig
      *
      * @param prop an instance of RMSProperties
      */
-    private void setUriConfigs(@NotNull RMSProperties prop)
+    private void setUriConfigs(@Nonnull RMSProperties prop)
     {
         uriScheme = prop.getReqStr("uri.scheme");
         uriHostName = prop.getReqStr("uri.hostname");
@@ -106,7 +106,7 @@ public class RMSConfig
      *
      * @param prop an instance of RMSProperties
      */
-    private void setSSLEngineConfig(@NotNull RMSProperties prop)
+    private void setSSLEngineConfig(@Nonnull RMSProperties prop)
     {
         if ((sslType = prop.getSSLType()) == SSLType.NONE)
             return;
@@ -123,7 +123,7 @@ public class RMSConfig
      *
      * @param prop an instance of RMSProperties
      */
-    private void setKeyStore(@NotNull RMSProperties prop)
+    private void setKeyStore(@Nonnull RMSProperties prop)
     {
         sslKeyStoreFile = prop.getReqStr("ssl.keyStoreFile");
         sslKeyStorePass = prop.getReqStr("ssl.keyStorePass");
@@ -140,7 +140,7 @@ public class RMSConfig
      *
      * @param prop an instance of RMSProperties
      */
-    private void setTrustStore(@NotNull RMSProperties prop)
+    private void setTrustStore(@Nonnull RMSProperties prop)
     {
         sslTrustStoreFile = prop.getReqStr("ssl.trustStoreFile");
         sslTrustStorePass = prop.getReqStr("ssl.trustStorePass");
@@ -157,7 +157,7 @@ public class RMSConfig
      *
      * @param prop an instance of RMSProperties
      */
-    private void setDatabaseConfig(@NotNull RMSProperties prop)
+    private void setDatabaseConfig(@Nonnull RMSProperties prop)
     {
         if ((dbType = prop.getDBType()) == DBType.NONE)
             return;
@@ -180,7 +180,7 @@ public class RMSConfig
      *
      * @param prop an instance of RMSProperties
      */
-    private void setDbDriver(@NotNull RMSProperties prop)
+    private void setDbDriver(@Nonnull RMSProperties prop)
     {
         dbDriver = prop.getReqStr("db.driver");
         dbHostname = prop.getReqStr("db.hostname");
@@ -195,7 +195,7 @@ public class RMSConfig
      *
      * @param prop an instance of RMSProperties
      */
-    private void setDBUrl(@NotNull RMSProperties prop)
+    private void setDBUrl(@Nonnull RMSProperties prop)
     {
         dbUrl = prop.getReqStr("db.url");
 
@@ -210,7 +210,7 @@ public class RMSConfig
      *
      * @param prop an instance of RMSProperties
      */
-    private void setCORSConfig(@NotNull RMSProperties prop)
+    private void setCORSConfig(@Nonnull RMSProperties prop)
     {
         if ((corsType = prop.getCORSType()) == CORSType.NONE)
             return;

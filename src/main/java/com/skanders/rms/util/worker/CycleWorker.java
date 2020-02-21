@@ -21,10 +21,10 @@ import com.skanders.rms.util.result.RMSResult;
 import com.skanders.rms.util.result.Result;
 import com.skanders.rms.util.worker.def.WorkerState;
 import com.skanders.rms.util.worker.request.CycleWorkerRequest;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -36,7 +36,7 @@ public class CycleWorker
 {
     private static final Logger LOG = LoggerFactory.getLogger(CycleWorker.class);
 
-    private static final Long START_DELAY_NONE    = 0L;
+    private static final Long START_DELAY_NONE = 0L;
     private static final Integer SINGLE_CORE_POOL = 1;
 
     private final ScheduledExecutorService worker;
@@ -47,30 +47,29 @@ public class CycleWorker
     private WorkerState state;
     private Future<?> futureFunc;
 
-    private CycleWorker(@NotNull Duration cyclePeriod, @NotNull Runnable func, @NotNull String name)
+    private CycleWorker(@Nonnull Duration cyclePeriod, @Nonnull Runnable func, @Nonnull String name)
     {
         RMSVerify.checkNull(cyclePeriod, "cyclePeriod cannot be null");
-        RMSVerify.checkNull(func,        "func cannot be null");
-        RMSVerify.checkNull(name,        "name cannot be null");
+        RMSVerify.checkNull(func, "func cannot be null");
+        RMSVerify.checkNull(name, "name cannot be null");
 
-        this.worker      = Executors.newScheduledThreadPool(SINGLE_CORE_POOL);
-        this.func        = func;
-        this.name        = name;
+        this.worker = Executors.newScheduledThreadPool(SINGLE_CORE_POOL);
+        this.func = func;
+        this.name = name;
 
         this.cyclePeriod = cyclePeriod;
-        this.state       = WorkerState.NONE;
-        this.futureFunc  = null;
+        this.state = WorkerState.NONE;
+        this.futureFunc = null;
     }
 
-    public static CycleWorker create(@NotNull Duration cyclePeriod, @NotNull Runnable func, @NotNull String name)
+    public static CycleWorker create(@Nonnull Duration cyclePeriod, @Nonnull Runnable func, @Nonnull String name)
     {
         return new CycleWorker(cyclePeriod, func, name);
     }
 
     public Result handler(CycleWorkerRequest request)
     {
-        switch (request.getRequestState())
-        {
+        switch (request.getRequestState()) {
             case START:
                 return start();
             case STOP:
@@ -89,8 +88,7 @@ public class CycleWorker
 
     public Result start()
     {
-        switch (state)
-        {
+        switch (state) {
             case NONE:
                 startWorker();
                 return RMSResult.WORKER_STARTED;
@@ -107,8 +105,7 @@ public class CycleWorker
 
     public Result stop()
     {
-        switch (state)
-        {
+        switch (state) {
             case NONE:
                 return RMSResult.WORKER_HAS_NOT_STARTED;
             case WORKING:
@@ -124,8 +121,7 @@ public class CycleWorker
 
     public Result invoke()
     {
-        switch (state)
-        {
+        switch (state) {
             case NONE:
                 return RMSResult.WORKER_HAS_NOT_STARTED;
             case WORKING:
@@ -141,8 +137,7 @@ public class CycleWorker
 
     public Result updatePeriod(Duration duration)
     {
-        switch (state)
-        {
+        switch (state) {
             case NONE:
                 this.cyclePeriod = duration;
                 startWorker();
@@ -164,8 +159,7 @@ public class CycleWorker
 
     public Result getStatus()
     {
-        switch (state)
-        {
+        switch (state) {
             case NONE:
                 return RMSResult.WORKER_STATUS_NONE;
             case WORKING:

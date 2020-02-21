@@ -15,16 +15,15 @@
  */
 
 
-
 package com.skanders.rms.util.connectionpool;
 
-import com.skanders.rms.def.verify.RMSVerify;
 import com.skanders.rms.def.logger.Pattern;
+import com.skanders.rms.def.verify.RMSVerify;
 import com.skanders.rms.util.result.Resulted;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,18 +39,18 @@ public class SQLQuery
 
     private boolean closed;
 
-    private SQLQuery(@NotNull String query, @NotNull PoolManager poolManager)
+    private SQLQuery(@Nonnull String query, @Nonnull PoolManager poolManager)
     {
         RMSVerify.checkNull(query, "query cannot be null.");
         RMSVerify.checkNull(poolManager, "poolManager cannot be null.");
 
-        this.query       = query;
+        this.query = query;
         this.poolManager = poolManager;
-        this.paramList   = new ArrayList<>();
-        this.closed      = false;
+        this.paramList = new ArrayList<>();
+        this.closed = false;
     }
 
-    public static SQLQuery createQuery(@NotNull String query, @NotNull PoolManager poolManager)
+    public static SQLQuery createQuery(@Nonnull String query, @Nonnull PoolManager poolManager)
     {
         return new SQLQuery(query, poolManager);
     }
@@ -68,8 +67,7 @@ public class SQLQuery
 
         LOG.debug(Pattern.ENTER, "Database Execute Update");
 
-        try (QueryManager queryManager = poolManager.createQuery(query))
-        {
+        try (QueryManager queryManager = poolManager.createQuery(query)) {
             queryManager.setParams(paramList);
 
             Integer updateCount = queryManager.executeUpdate();

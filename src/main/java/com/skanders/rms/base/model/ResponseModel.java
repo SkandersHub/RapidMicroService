@@ -15,7 +15,6 @@
  */
 
 
-
 package com.skanders.rms.base.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,10 +23,10 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skanders.rms.def.verify.RMSVerify;
 import com.skanders.rms.util.result.Result;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -43,9 +42,8 @@ public abstract class ResponseModel
     private Result result;
 
     /**
-     * Default constructor, sets result to UNDECLARED to ensure
-     * proper creation by user
-     *
+     * Default constructor, sets result to UNDECLARED to ensure proper creation
+     * by user
      */
     public ResponseModel()
     {
@@ -58,7 +56,7 @@ public abstract class ResponseModel
      * @param result a instance of Result
      * @see Result
      */
-    public ResponseModel(@NotNull Result result)
+    public ResponseModel(@Nonnull Result result)
     {
         RMSVerify.checkNull(result, "result cannot be null");
 
@@ -66,7 +64,6 @@ public abstract class ResponseModel
     }
 
     /**
-     *
      * @return Current Result of Response
      * @see Result
      */
@@ -76,10 +73,9 @@ public abstract class ResponseModel
     }
 
     /**
-     *
      * @param result sets the Current Result of the WorkFlow
      */
-    public void setResult(@NotNull Result result)
+    public void setResult(@Nonnull Result result)
     {
         RMSVerify.checkNull(result, "result cannot be null");
 
@@ -98,14 +94,14 @@ public abstract class ResponseModel
     }
 
     /**
-     * Builds a response based on this ResponseModel and its result
-     * with the headers attached.
+     * Builds a response based on this ResponseModel and its result with the
+     * headers attached.
      *
      * @param headers headers used when creating response
      * @return an instance of {@link Response}
      */
     @JsonIgnore
-    public Response toResponse(@NotNull MultivaluedHashMap<String, Object> headers)
+    public Response toResponse(@Nonnull MultivaluedHashMap<String, Object> headers)
     {
         RMSVerify.checkNull(headers, "headers cannot be null");
 
@@ -118,7 +114,8 @@ public abstract class ResponseModel
     }
 
     /**
-     * Builds a response based on this ResponseModel checking for any errors in result
+     * Builds a response based on this ResponseModel checking for any errors in
+     * result
      *
      * @return an instance of {@link ResponseBuilder}
      */

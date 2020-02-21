@@ -18,11 +18,11 @@ package com.skanders.rms.util.result;
 
 import com.skanders.rms.base.model.ResponseModel;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 
 class PlainResultResponse extends ResponseModel
 {
-    public PlainResultResponse(@NotNull Result result)
+    public PlainResultResponse(@Nonnull Result result)
     {
         super(result);
     }

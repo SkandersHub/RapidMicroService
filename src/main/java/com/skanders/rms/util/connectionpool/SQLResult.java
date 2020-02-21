@@ -15,14 +15,13 @@
  */
 
 
-
 package com.skanders.rms.util.connectionpool;
 
 import com.skanders.rms.def.verify.RMSVerify;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 import java.sql.ResultSet;
 
 public class SQLResult implements AutoCloseable
@@ -38,10 +37,10 @@ public class SQLResult implements AutoCloseable
         this.resultSet = resultSet;
     }
 
-    static SQLResult newInstance(@NotNull QueryManager queryManager, @NotNull ResultSet resultSet)
+    static SQLResult newInstance(@Nonnull QueryManager queryManager, @Nonnull ResultSet resultSet)
     {
         RMSVerify.checkNull(queryManager, "queryManager cannot be null");
-        RMSVerify.checkNull(resultSet,    "resultSet cannot be null");
+        RMSVerify.checkNull(resultSet, "resultSet cannot be null");
 
         return new SQLResult(queryManager, resultSet);
     }

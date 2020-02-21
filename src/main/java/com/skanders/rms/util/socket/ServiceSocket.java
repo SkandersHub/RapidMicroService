@@ -15,10 +15,9 @@
  */
 
 
-
 package com.skanders.rms.util.socket;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
@@ -138,7 +137,7 @@ public class ServiceSocket
      * @param headerMap a MultivaluedMap instance
      * @return the object being called
      */
-    public ServiceSocket headers(@NotNull MultivaluedMap<String, Object> headerMap)
+    public ServiceSocket headers(@Nonnull MultivaluedMap<String, Object> headerMap)
     {
         headers.putAll(headerMap);
 
@@ -148,11 +147,11 @@ public class ServiceSocket
     /**
      * Adds a single header value to the socket call
      *
-     * @param key key for header value
+     * @param key   key for header value
      * @param value value for header key
      * @return the object being called
      */
-    public ServiceSocket header(@NotNull String key, @NotNull Object value)
+    public ServiceSocket header(@Nonnull String key, @Nonnull Object value)
     {
         headers.add(key, value);
 
@@ -165,7 +164,7 @@ public class ServiceSocket
      * @param queryMap a MultivaluedMap instance
      * @return the object being called
      */
-    public ServiceSocket queries(@NotNull MultivaluedMap<String, Object> queryMap)
+    public ServiceSocket queries(@Nonnull MultivaluedMap<String, Object> queryMap)
     {
         queries.putAll(queryMap);
 
@@ -175,7 +174,7 @@ public class ServiceSocket
     /**
      * Adds a single query value to the socket call
      *
-     * @param key key for query value
+     * @param key   key for query value
      * @param value value for query key
      * @return the object being called
      */
@@ -187,10 +186,11 @@ public class ServiceSocket
     }
 
     /**
-     * Internal builder creator, uses the instances path, uri, queries and header to
-     * construct a {@link WebTarget} to instantiate a {@link Builder}
+     * Internal builder creator, uses the instances path, uri, queries and
+     * header to construct a {@link WebTarget} to instantiate a {@link Builder}
      *
-     * @return an instance of {@link Builder} to be used to query the MicroService
+     * @return an instance of {@link Builder} to be used to query the
+     * MicroService
      */
     private Builder createBuilder()
     {
