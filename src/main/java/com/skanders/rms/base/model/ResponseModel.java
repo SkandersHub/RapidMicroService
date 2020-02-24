@@ -18,11 +18,9 @@
 package com.skanders.rms.base.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.skanders.rms.base.result.Result;
 import com.skanders.rms.def.verify.RMSVerify;
-import com.skanders.rms.util.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,13 +31,32 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import java.util.Objects;
 
-@JsonInclude(Include.NON_NULL)
+/**
+ * Base Response Model class. Outgoing requests should use this class to hold
+ * response data as well as response headers.
+ * <p>
+ * This class MUST have a {@link Result} value set before finishing with {@link
+ * #toResponse()} otherwise the response will contain a status 200 result of
+ * UNDECLARED.
+ * <p>
+ * A typical response in JSON will have at the very least this response:
+ * <pre>
+ *     {
+ *         result: {
+ *             code: 0,
+ *             message: "Undeclared"
+ *         }
+ *     }
+ * </pre>
+ */
 public abstract class ResponseModel
 {
     private static final Logger LOG = LoggerFactory.getLogger(ResponseModel.class);
 
     @JsonProperty("result")
     private Result result;
+    @JsonIgnore
+    private MultivaluedHashMap<String, Object> headers;
 
     /**
      * Default constructor, sets result to UNDECLARED to ensure proper creation
@@ -48,6 +65,7 @@ public abstract class ResponseModel
     public ResponseModel()
     {
         this.result = Result.UNDECLARED;
+        this.headers = new MultivaluedHashMap<>();
     }
 
     /**
@@ -83,32 +101,42 @@ public abstract class ResponseModel
     }
 
     /**
-     * Builds a response based on this ResponseModel and its result
+     * Adds all headers from the given headers and to the response headers
+     *
+     * @param headers a MultivaluedMap instance
+     */
+    @JsonIgnore
+    public void headers(@Nonnull MultivaluedHashMap<String, Object> headers)
+    {
+        this.headers.putAll(headers);
+    }
+
+    /**
+     * Adds a single header value to the response
+     *
+     * @param key   key for header value
+     * @param value value for header key
+     */
+    @JsonIgnore
+    public void header(@Nonnull String key, @Nonnull Object value)
+    {
+        this.headers.add(key, value);
+    }
+
+    /**
+     * Builds a response based on this ResponseModel and its result as well as
+     * any headers that are contained in the headers HashMap
      *
      * @return an instance of {@link Response}
      */
     @JsonIgnore
     public Response toResponse()
     {
-        return responseBuilder().build();
-    }
-
-    /**
-     * Builds a response based on this ResponseModel and its result with the
-     * headers attached.
-     *
-     * @param headers headers used when creating response
-     * @return an instance of {@link Response}
-     */
-    @JsonIgnore
-    public Response toResponse(@Nonnull MultivaluedHashMap<String, Object> headers)
-    {
-        RMSVerify.checkNull(headers, "headers cannot be null");
-
         ResponseBuilder builder = responseBuilder();
 
-        for (String key : headers.keySet())
-            builder = builder.header(key, headers.getFirst(key));
+        if (headers != null)
+            for (String key : headers.keySet())
+                builder = builder.header(key, headers.getFirst(key));
 
         return builder.build();
     }

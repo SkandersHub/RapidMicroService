@@ -17,9 +17,9 @@
 
 package com.skanders.rms.util.connectionpool;
 
+import com.skanders.rms.base.result.Resulted;
 import com.skanders.rms.def.logger.Pattern;
 import com.skanders.rms.def.verify.RMSVerify;
-import com.skanders.rms.util.result.Resulted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

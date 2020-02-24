@@ -16,8 +16,8 @@
 
 package com.skanders.rms.util.worker.def;
 
-import com.skanders.rms.util.result.RMSResult;
-import com.skanders.rms.util.result.Result;
+import com.skanders.rms.base.result.RMSResult;
+import com.skanders.rms.base.result.Result;
 
 public class WorkerValidate
 {

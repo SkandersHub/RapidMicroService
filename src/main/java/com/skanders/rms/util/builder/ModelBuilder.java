@@ -15,7 +15,6 @@
  */
 
 
-
 package com.skanders.rms.util.builder;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -26,12 +25,12 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.skanders.rms.base.result.RMSResult;
+import com.skanders.rms.base.result.Result;
+import com.skanders.rms.base.result.Resulted;
 import com.skanders.rms.def.logger.Pattern;
-import com.skanders.rms.util.result.RMSResult;
-import com.skanders.rms.util.result.Result;
-import com.skanders.rms.util.result.Resulted;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,13 +42,12 @@ public class ModelBuilder
 
     private static final ObjectMapper JSON_MAPPER;
     private static final ObjectMapper YAML_MAPPER;
-    private static final ObjectMapper  XML_MAPPER;
+    private static final ObjectMapper XML_MAPPER;
 
-    static
-    {
+    static {
         JSON_MAPPER = new ObjectMapper();
         YAML_MAPPER = new ObjectMapper(new YAMLFactory());
-        XML_MAPPER  = new ObjectMapper(new XmlFactory());
+        XML_MAPPER = new ObjectMapper(new XmlFactory());
     }
 
     public static ObjectMapper getJsonMapper()
@@ -73,66 +71,66 @@ public class ModelBuilder
     }
 
     public static <T> Resulted<T> fromJson(
-            InputStream jsonText, Class<T> className, DeserializationFeature ... feature)
+            InputStream jsonText, Class<T> className, DeserializationFeature... feature)
     {
         return fromInputStream(JSON_MAPPER, jsonText, className, feature);
     }
 
     public static <T> Resulted<T> fromJson(
-            File jsonFile, Class<T> className, DeserializationFeature ... feature)
+            File jsonFile, Class<T> className, DeserializationFeature... feature)
     {
         return fromFile(JSON_MAPPER, jsonFile, className, feature);
     }
 
     public static <T> Resulted<T> fromJson(
-            String jsonText, Class<T> className, DeserializationFeature ... feature)
+            String jsonText, Class<T> className, DeserializationFeature... feature)
     {
         return fromString(JSON_MAPPER, jsonText, className, feature);
     }
 
     public static <T> Resulted<T> fromXml(
-            InputStream xmlText, Class<T> className, DeserializationFeature ... feature)
+            InputStream xmlText, Class<T> className, DeserializationFeature... feature)
     {
         return fromInputStream(XML_MAPPER, xmlText, className, feature);
     }
 
     public static <T> Resulted<T> fromXml(
-            File xmlFile, Class<T> className, DeserializationFeature ... feature)
+            File xmlFile, Class<T> className, DeserializationFeature... feature)
     {
         return fromFile(XML_MAPPER, xmlFile, className, feature);
     }
 
     public static <T> Resulted<T> fromXml(
-            String xmlText, Class<T> className, DeserializationFeature ... feature)
+            String xmlText, Class<T> className, DeserializationFeature... feature)
     {
         return fromString(XML_MAPPER, xmlText, className, feature);
     }
 
     public static <T> Resulted<T> fromYaml(
-            InputStream yamlText, Class<T> className, DeserializationFeature ... feature)
+            InputStream yamlText, Class<T> className, DeserializationFeature... feature)
     {
         return fromInputStream(YAML_MAPPER, yamlText, className, feature);
     }
 
     public static <T> Resulted<T> fromYaml(
-            File yamlFile, Class<T> className, DeserializationFeature ... feature)
+            File yamlFile, Class<T> className, DeserializationFeature... feature)
     {
         return fromFile(YAML_MAPPER, yamlFile, className, feature);
     }
 
     public static <T> Resulted<T> fromYaml(
-            String yamlText, Class<T> className, DeserializationFeature ... feature)
+            String yamlText, Class<T> className, DeserializationFeature... feature)
     {
         return fromString(YAML_MAPPER, yamlText, className, feature);
     }
 
     private static <T> Resulted<T> fromInputStream(
-            ObjectMapper mapper, InputStream inputStream, Class<T> className, DeserializationFeature ... feature)
+            ObjectMapper mapper, InputStream inputStream, Class<T> className, DeserializationFeature... feature)
     {
-        try{
-             ObjectReader reader = (feature == null || feature.length == 0) ?
-                     mapper.readerFor(className) :
-                     mapper.readerFor(className).withFeatures(feature);
+        try {
+            ObjectReader reader = (feature == null || feature.length == 0) ?
+                    mapper.readerFor(className) :
+                    mapper.readerFor(className).withFeatures(feature);
 
             return Resulted.inValue(reader.readValue(inputStream));
 
@@ -144,12 +142,12 @@ public class ModelBuilder
     }
 
     private static <T> Resulted<T> fromFile(
-            ObjectMapper mapper, File fileName, Class<T> className, DeserializationFeature ... feature)
+            ObjectMapper mapper, File fileName, Class<T> className, DeserializationFeature... feature)
     {
-        try{
-             ObjectReader reader = (feature == null || feature.length == 0) ?
-                     mapper.readerFor(className) :
-                     mapper.readerFor(className).withFeatures(feature);
+        try {
+            ObjectReader reader = (feature == null || feature.length == 0) ?
+                    mapper.readerFor(className) :
+                    mapper.readerFor(className).withFeatures(feature);
 
             return Resulted.inValue(reader.readValue(fileName));
 
@@ -161,12 +159,12 @@ public class ModelBuilder
     }
 
     private static <T> Resulted<T> fromString(
-            ObjectMapper mapper, String text, Class<T> className, DeserializationFeature ... feature)
+            ObjectMapper mapper, String text, Class<T> className, DeserializationFeature... feature)
     {
-        try{
-             ObjectReader reader = (feature == null || feature.length == 0) ?
-                     mapper.readerFor(className) :
-                     mapper.readerFor(className).withFeatures(feature);
+        try {
+            ObjectReader reader = (feature == null || feature.length == 0) ?
+                    mapper.readerFor(className) :
+                    mapper.readerFor(className).withFeatures(feature);
 
             return Resulted.inValue(reader.readValue(text));
 

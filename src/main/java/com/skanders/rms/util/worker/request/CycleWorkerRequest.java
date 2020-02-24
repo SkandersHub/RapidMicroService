@@ -20,12 +20,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skanders.rms.base.model.RequestModel;
-import com.skanders.rms.util.result.RMSResult;
-import com.skanders.rms.util.result.Result;
+import com.skanders.rms.base.result.RMSResult;
+import com.skanders.rms.base.result.Result;
 import com.skanders.rms.util.worker.def.WorkerRequestState;
 import com.skanders.rms.util.worker.def.WorkerValidate;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 
@@ -73,8 +73,7 @@ public class CycleWorkerRequest extends RequestModel
             char unit = period.charAt(last);
             LOG.info("Worker Duration set to: " + time + " " + unit);
 
-            switch (unit)
-            {
+            switch (unit) {
                 case 'S':
                 case 's':
                     duration = Duration.ofSeconds(time);

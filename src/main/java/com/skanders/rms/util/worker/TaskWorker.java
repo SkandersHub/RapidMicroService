@@ -16,10 +16,10 @@
 
 package com.skanders.rms.util.worker;
 
-import com.skanders.rms.util.result.Result;
+import com.skanders.rms.base.result.Result;
 import com.skanders.rms.util.worker.def.Task;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class TaskWorker extends Worker
 {

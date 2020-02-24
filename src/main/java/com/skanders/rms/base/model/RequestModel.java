@@ -15,13 +15,16 @@
  */
 
 
-
 package com.skanders.rms.base.model;
 
-import com.skanders.rms.util.result.Result;
-import com.skanders.rms.util.result.Resulted;
+import com.skanders.rms.base.result.Result;
+import com.skanders.rms.base.result.Resulted;
 
-
+/**
+ * Base Request Model class. Incoming requests should use this class to hold
+ * request data as well as override the {@link #validate()} function for data
+ * validation.
+ */
 public abstract class RequestModel
 {
     /**

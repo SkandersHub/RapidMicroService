@@ -16,9 +16,9 @@
 
 package com.skanders.rms.util.worker;
 
+import com.skanders.rms.base.result.RMSResult;
+import com.skanders.rms.base.result.Result;
 import com.skanders.rms.def.verify.RMSVerify;
-import com.skanders.rms.util.result.RMSResult;
-import com.skanders.rms.util.result.Result;
 import com.skanders.rms.util.worker.def.WorkerState;
 import com.skanders.rms.util.worker.request.CycleWorkerRequest;
 import org.slf4j.Logger;

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.skanders.rms.util.result;
+package com.skanders.rms.base.result;
 
 import com.skanders.rms.def.logger.Pattern;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

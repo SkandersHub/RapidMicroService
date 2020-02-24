@@ -15,7 +15,7 @@
  */
 
 
-package com.skanders.rms.util.result;
+package com.skanders.rms.base.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -165,7 +165,10 @@ public class Result
     @JsonIgnore
     public Response toResponse(MultivaluedHashMap<String, Object> headers)
     {
-        return new PlainResultResponse(this).toResponse(headers);
+        PlainResultResponse response = new PlainResultResponse(this);
+        response.headers(headers);
+
+        return response.toResponse();
     }
 
     @Override

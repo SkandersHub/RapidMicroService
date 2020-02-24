@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.skanders.rms.util.result;
+package com.skanders.rms.base.result;
 
 import com.skanders.rms.base.model.ResponseModel;
 
