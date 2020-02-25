@@ -16,8 +16,9 @@
 
 package com.skanders.rms.base.config;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.MapType;
 import com.skanders.rms.def.exception.RMSException;
 import com.skanders.rms.def.verify.RMSVerify;
 import com.skanders.rms.util.builder.ModelBuilder;
@@ -464,30 +465,35 @@ public class RMSProperties
     /**
      * Retrieves the optional value as an ArrayList
      *
-     * @param path dot delimited path to value in yaml
-     * @param <T>  ArrayList type to be determined by storing value
+     * @param path      dot delimited path to value in yaml
+     * @param classType array class type
+     * @param <T>       ArrayList type to be determined by storing value
      * @return the value as an ArrayList, or null if not found
      */
-    public <T> ArrayList<T> getArray(String path)
+    public <T> ArrayList<T> getArray(String path, Class<T> classType)
     {
         JsonNode value = getNode(path);
 
-        return value == null ? null : ModelBuilder.getJsonMapper().convertValue(value, new TypeReference<ArrayList<T>>()
-        {
-        });
+        if (value == null)
+            return null;
+
+        CollectionType type = ModelBuilder.getJsonMapper().getTypeFactory().constructCollectionType(ArrayList.class, classType);
+
+        return ModelBuilder.getJsonMapper().convertValue(value, type);
     }
 
     /**
      * Retrieves the required value as an ArrayList
      *
-     * @param path dot delimited path to value in yaml
-     * @param <T>  ArrayList type to be determined by storing value
+     * @param path      dot delimited path to value in yaml
+     * @param classType array class type
+     * @param <T>       ArrayList type to be determined by storing value
      * @return the value as an ArrayList
      * @throws RMSException if the path is not found
      */
-    public <T> ArrayList<T> getReqArray(String path)
+    public <T> ArrayList<T> getReqArray(String path, Class<T> classType)
     {
-        ArrayList<T> value = getArray(path);
+        ArrayList<T> value = getArray(path, classType);
 
         requiredValue(path, value);
 
@@ -497,32 +503,39 @@ public class RMSProperties
     /**
      * Retrieves the optional value as a HashMap
      *
-     * @param path dot delimited path to value in yaml
-     * @param <T>  HashMap key type to be determined by storing value
-     * @param <S>  HashMap value type to be determined by storing value
+     * @param path       dot delimited path to value in yaml
+     * @param keyClass   key class type
+     * @param valueClass value class type
+     * @param <T>        HashMap key type to be determined by storing value
+     * @param <S>        HashMap value type to be determined by storing value
      * @return the value as a HashMap, or null if not found
      */
-    public <T, S> HashMap<T, S> getMap(String path)
+    public <T, S> HashMap<T, S> getMap(String path, Class<T> keyClass, Class<S> valueClass)
     {
         JsonNode value = getNode(path);
 
-        return value == null ? null : ModelBuilder.getJsonMapper().convertValue(value, new TypeReference<HashMap<T, S>>()
-        {
-        });
+        if (value == null)
+            return null;
+
+        MapType type = ModelBuilder.getJsonMapper().getTypeFactory().constructMapType(HashMap.class, keyClass, valueClass);
+
+        return ModelBuilder.getJsonMapper().convertValue(value, type);
     }
 
     /**
      * Retrieves the required value as a HashMap
      *
-     * @param path dot delimited path to value in yaml
-     * @param <T>  HashMap key type to be determined by storing value
-     * @param <S>  HashMap value type to be determined by storing value
+     * @param path       dot delimited path to value in yaml
+     * @param keyClass   key class type
+     * @param valueClass value class type
+     * @param <T>        HashMap key type to be determined by storing value
+     * @param <S>        HashMap value type to be determined by storing value
      * @return the value as a HashMap
      * @throws RMSException if the path is not found
      */
-    public <T, S> HashMap<T, S> getReqMap(String path)
+    public <T, S> HashMap<T, S> getReqMap(String path, Class<T> keyClass, Class<S> valueClass)
     {
-        HashMap<T, S> value = getMap(path);
+        HashMap<T, S> value = getMap(path, keyClass, valueClass);
 
         requiredValue(path, value);
 
