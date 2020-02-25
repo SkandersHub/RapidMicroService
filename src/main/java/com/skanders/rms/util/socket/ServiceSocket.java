@@ -83,9 +83,10 @@ public class ServiceSocket
      * Calls a POST request
      *
      * @param entity entity
+     * @param <T>    entity type
      * @return an instance of Response
      */
-    public Response post(Entity entity)
+    public <T> Response post(Entity<T> entity)
     {
         return createBuilder().post(entity);
     }
@@ -94,9 +95,10 @@ public class ServiceSocket
      * Calls a PUT request
      *
      * @param entity entity
+     * @param <T>    entity type
      * @return an instance of Response
      */
-    public Response put(Entity entity)
+    public <T> Response put(Entity<T> entity)
     {
         return createBuilder().put(entity);
     }

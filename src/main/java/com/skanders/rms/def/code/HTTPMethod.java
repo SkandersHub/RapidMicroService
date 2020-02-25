@@ -15,20 +15,19 @@
  */
 
 
-
 package com.skanders.rms.def.code;
 
 public enum HTTPMethod
 {
-    GET      ("GET"),
-    HEAD     ("HEAD"),
-    POST     ("POST"),
-    PUT      ("PUT"),
-    DELETE   ("DELETE"),
-    CONNECT  ("CONNECT"),
-    OPTIONS  ("OPTIONS"),
-    TRACE    ("TRACE"),
-    PATCH    ("PATCH");
+    GET("GET"),
+    HEAD("HEAD"),
+    POST("POST"),
+    PUT("PUT"),
+    DELETE("DELETE"),
+    CONNECT("CONNECT"),
+    OPTIONS("OPTIONS"),
+    TRACE("TRACE"),
+    PATCH("PATCH");
 
     private final String type;
 
@@ -41,6 +40,11 @@ public enum HTTPMethod
     public String toString()
     {
         return type;
+    }
+
+    public static HTTPMethod toEnum(String type)
+    {
+        return HTTPMethod.valueOf(type.toUpperCase().trim());
     }
 }
 

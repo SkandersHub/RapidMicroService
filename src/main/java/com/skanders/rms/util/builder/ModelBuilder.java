@@ -18,10 +18,7 @@
 package com.skanders.rms.util.builder;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -88,6 +85,12 @@ public class ModelBuilder
         return fromString(JSON_MAPPER, jsonText, className, feature);
     }
 
+    public static <T> Resulted<T> fromJson(
+            JsonNode jsonNode, Class<T> className, DeserializationFeature... feature)
+    {
+        return fromPOJO(JSON_MAPPER, jsonNode, className, feature);
+    }
+
     public static <T> Resulted<T> fromXml(
             InputStream xmlText, Class<T> className, DeserializationFeature... feature)
     {
@@ -106,6 +109,12 @@ public class ModelBuilder
         return fromString(XML_MAPPER, xmlText, className, feature);
     }
 
+    public static <T> Resulted<T> fromXml(
+            JsonNode jsonNode, Class<T> className, DeserializationFeature... feature)
+    {
+        return fromPOJO(XML_MAPPER, jsonNode, className, feature);
+    }
+
     public static <T> Resulted<T> fromYaml(
             InputStream yamlText, Class<T> className, DeserializationFeature... feature)
     {
@@ -122,6 +131,12 @@ public class ModelBuilder
             String yamlText, Class<T> className, DeserializationFeature... feature)
     {
         return fromString(YAML_MAPPER, yamlText, className, feature);
+    }
+
+    public static <T> Resulted<T> fromYaml(
+            JsonNode jsonNode, Class<T> className, DeserializationFeature... feature)
+    {
+        return fromPOJO(YAML_MAPPER, jsonNode, className, feature);
     }
 
     private static <T> Resulted<T> fromInputStream(
@@ -167,6 +182,23 @@ public class ModelBuilder
                     mapper.readerFor(className).withFeatures(feature);
 
             return Resulted.inValue(reader.readValue(text));
+
+        } catch (IOException e) {
+            LOG.error(Pattern.ERROR, e.getClass(), e.getMessage());
+            return Resulted.inResult(convert(e));
+
+        }
+    }
+
+    private static <T> Resulted<T> fromPOJO(
+            ObjectMapper mapper, JsonNode node, Class<T> className, DeserializationFeature... feature)
+    {
+        try {
+            ObjectReader reader = (feature == null || feature.length == 0) ?
+                    mapper.readerFor(className) :
+                    mapper.readerFor(className).withFeatures(feature);
+
+            return Resulted.inValue(reader.treeToValue(node, className));
 
         } catch (IOException e) {
             LOG.error(Pattern.ERROR, e.getClass(), e.getMessage());

@@ -172,7 +172,7 @@ public class RMSConfig
         dbMaxLifetime = prop.getReqLong("db.maxLifetime");
         dbMaxPoolSize = prop.getReqInt("db.maxPoolSize");
 
-        dbProperties = prop.getMap("db.properties", String.class, Object.class);
+        dbProperties = new HashMap<>(prop.getMap("db.properties", String.class, Object.class));
     }
 
     /**

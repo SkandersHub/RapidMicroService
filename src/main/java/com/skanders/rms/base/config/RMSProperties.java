@@ -19,6 +19,7 @@ package com.skanders.rms.base.config;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapType;
+import com.skanders.rms.base.result.Resulted;
 import com.skanders.rms.def.exception.RMSException;
 import com.skanders.rms.def.verify.RMSVerify;
 import com.skanders.rms.util.builder.ModelBuilder;
@@ -31,8 +32,8 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A manager that extracts required, optional, and encrypted values from a
@@ -77,12 +78,8 @@ public class RMSProperties
     private static final Logger LOG = LoggerFactory.getLogger(RMSProperties.class);
 
     private static final String PATH_DELIM = "\\.";
-    private static final String ENCRYPTED_VALUE_LABEL = "enc=";
 
     private final JsonNode properties;
-    private final StandardPBEStringEncryptor encryptor;
-
-    private final boolean encrypted;
 
     /**
      * Static builder that reads all yaml values as 'plain' values and will skip
@@ -98,7 +95,7 @@ public class RMSProperties
 
         JsonNode properties = loadConfigProps(propertiesFileName);
 
-        return new RMSProperties(properties, null);
+        return new RMSProperties(properties);
     }
 
     /**
@@ -124,7 +121,9 @@ public class RMSProperties
 
         JsonNode properties = loadConfigProps(propertiesFileName);
 
-        return new RMSProperties(properties, encryptor);
+        JsonNodeParser.decryptNodes(properties, encryptor);
+
+        return new RMSProperties(properties);
     }
 
     /**
@@ -150,22 +149,19 @@ public class RMSProperties
 
         JsonNode properties = loadConfigProps(propertiesFileName);
 
-        return new RMSProperties(properties, encryptor);
+        JsonNodeParser.decryptNodes(properties, encryptor);
+
+        return new RMSProperties(properties);
     }
 
     /**
      * Private constructor to be called from static builders
      *
      * @param properties an instance of JsonNode modeled from yaml file
-     * @param encryptor  an instance of StandardPBEStringEncryptor created with
-     *                   the user given algorithm and password
      */
-    private RMSProperties(JsonNode properties, StandardPBEStringEncryptor encryptor)
+    private RMSProperties(JsonNode properties)
     {
         this.properties = properties;
-        this.encryptor = encryptor;
-
-        this.encrypted = this.encryptor != null;
     }
 
     /**
@@ -309,7 +305,7 @@ public class RMSProperties
     {
         JsonNode value = getNode(path);
 
-        return value == null ? null : checkEncrypted(value.asText());
+        return value == null ? null : value.asText();
     }
 
     /**
@@ -321,9 +317,9 @@ public class RMSProperties
      */
     public Boolean getBool(String path, Boolean defaultValue)
     {
-        JsonNode value = getNode(path);
+        Boolean value = getBool(path);
 
-        return value == null ? defaultValue : value.asBoolean();
+        return value == null ? defaultValue : value;
     }
 
     /**
@@ -335,9 +331,9 @@ public class RMSProperties
      */
     public Integer getInt(String path, Integer defaultValue)
     {
-        JsonNode value = getNode(path);
+        Integer value = getInt(path);
 
-        return value == null ? defaultValue : value.asInt();
+        return value == null ? defaultValue : value;
     }
 
     /**
@@ -349,9 +345,9 @@ public class RMSProperties
      */
     public Long getLong(String path, Long defaultValue)
     {
-        JsonNode value = getNode(path);
+        Long value = getLong(path);
 
-        return value == null ? defaultValue : value.asLong();
+        return value == null ? defaultValue : value;
     }
 
     /**
@@ -363,9 +359,9 @@ public class RMSProperties
      */
     public Double getDouble(String path, Double defaultValue)
     {
-        JsonNode value = getNode(path);
+        Double value = getDouble(path);
 
-        return value == null ? defaultValue : value.asDouble();
+        return value == null ? defaultValue : value;
     }
 
     /**
@@ -377,9 +373,9 @@ public class RMSProperties
      */
     public String getStr(String path, String defaultValue)
     {
-        JsonNode value = getNode(path);
+        String value = getStr(path);
 
-        return value == null ? defaultValue : checkEncrypted(value.asText());
+        return value == null ? defaultValue : value;
     }
 
     /**
@@ -463,37 +459,37 @@ public class RMSProperties
     }
 
     /**
-     * Retrieves the optional value as an ArrayList
+     * Retrieves the optional value as an List
      *
      * @param path      dot delimited path to value in yaml
      * @param classType array class type
-     * @param <T>       ArrayList type to be determined by storing value
-     * @return the value as an ArrayList, or null if not found
+     * @param <T>       List type to be determined by storing value
+     * @return the value as an List, or null if not found
      */
-    public <T> ArrayList<T> getArray(String path, Class<T> classType)
+    public <T> List<T> getArray(String path, Class<T> classType)
     {
         JsonNode value = getNode(path);
 
         if (value == null)
             return null;
 
-        CollectionType type = ModelBuilder.getJsonMapper().getTypeFactory().constructCollectionType(ArrayList.class, classType);
+        CollectionType type = ModelBuilder.getJsonMapper().getTypeFactory().constructCollectionType(List.class, classType);
 
         return ModelBuilder.getJsonMapper().convertValue(value, type);
     }
 
     /**
-     * Retrieves the required value as an ArrayList
+     * Retrieves the required value as an List
      *
      * @param path      dot delimited path to value in yaml
      * @param classType array class type
-     * @param <T>       ArrayList type to be determined by storing value
-     * @return the value as an ArrayList
+     * @param <T>       List type to be determined by storing value
+     * @return the value as an List
      * @throws RMSException if the path is not found
      */
-    public <T> ArrayList<T> getReqArray(String path, Class<T> classType)
+    public <T> List<T> getReqArray(String path, Class<T> classType)
     {
-        ArrayList<T> value = getArray(path, classType);
+        List<T> value = getArray(path, classType);
 
         requiredValue(path, value);
 
@@ -501,41 +497,82 @@ public class RMSProperties
     }
 
     /**
-     * Retrieves the optional value as a HashMap
+     * Retrieves the optional value as a Map
      *
      * @param path       dot delimited path to value in yaml
      * @param keyClass   key class type
      * @param valueClass value class type
-     * @param <T>        HashMap key type to be determined by storing value
-     * @param <S>        HashMap value type to be determined by storing value
-     * @return the value as a HashMap, or null if not found
+     * @param <T>        Map key type to be determined by storing value
+     * @param <S>        Map value type to be determined by storing value
+     * @return the value as a Map, or null if not found
      */
-    public <T, S> HashMap<T, S> getMap(String path, Class<T> keyClass, Class<S> valueClass)
+    public <T, S> Map<T, S> getMap(String path, Class<T> keyClass, Class<S> valueClass)
     {
         JsonNode value = getNode(path);
 
         if (value == null)
             return null;
 
-        MapType type = ModelBuilder.getJsonMapper().getTypeFactory().constructMapType(HashMap.class, keyClass, valueClass);
+        MapType type = ModelBuilder.getJsonMapper().getTypeFactory().constructMapType(Map.class, keyClass, valueClass);
 
         return ModelBuilder.getJsonMapper().convertValue(value, type);
     }
 
     /**
-     * Retrieves the required value as a HashMap
+     * Retrieves the required value as a Map
      *
      * @param path       dot delimited path to value in yaml
      * @param keyClass   key class type
      * @param valueClass value class type
-     * @param <T>        HashMap key type to be determined by storing value
-     * @param <S>        HashMap value type to be determined by storing value
-     * @return the value as a HashMap
+     * @param <T>        Map key type to be determined by storing value
+     * @param <S>        Map value type to be determined by storing value
+     * @return the value as a Map
      * @throws RMSException if the path is not found
      */
-    public <T, S> HashMap<T, S> getReqMap(String path, Class<T> keyClass, Class<S> valueClass)
+    public <T, S> Map<T, S> getReqMap(String path, Class<T> keyClass, Class<S> valueClass)
     {
-        HashMap<T, S> value = getMap(path, keyClass, valueClass);
+        Map<T, S> value = getMap(path, keyClass, valueClass);
+
+        requiredValue(path, value);
+
+        return value;
+    }
+
+    /**
+     * Retrieves the optional value as a POJO
+     *
+     * @param path      dot delimited path to value in yaml
+     * @param pojoClass pojo class
+     * @param <T>       pojo class type
+     * @return the value as a POJO, or null if not found
+     */
+    public <T> T getPOJO(String path, Class<T> pojoClass)
+    {
+        JsonNode value = getNode(path);
+
+        if (value == null)
+            return null;
+
+        Resulted<T> pojo = ModelBuilder.fromJson(value, pojoClass);
+
+        if (pojo.notValid())
+            throw new RMSException("Failed to map pojo " + pojo.result().message());
+
+        return pojo.value();
+    }
+
+    /**
+     * Retrieves the required value as a POJO
+     *
+     * @param path      dot delimited path to value in yaml
+     * @param pojoClass pojo class
+     * @param <T>       pojo class type
+     * @return the value as a POJO
+     * @throws RMSException if the path is not found
+     */
+    public <T> T getReqPOJO(String path, Class<T> pojoClass)
+    {
+        T value = getPOJO(path, pojoClass);
 
         requiredValue(path, value);
 
@@ -560,28 +597,6 @@ public class RMSProperties
         }
 
         return value;
-    }
-
-    /**
-     * Checks the value for encryption label. If labeled and RMSProperties is
-     * labeled as a encrypted properties instance then will automatically
-     * decrypt the value.
-     * <p>
-     * If the label is missing or if RMSProperties is not labeled as a encrypted
-     * properties instance, then the value will just be returned.
-     *
-     * @param value value to check
-     * @return the decrypted value or original value if no encryption options
-     * available
-     */
-    private String checkEncrypted(String value)
-    {
-        if (value == null)
-            return null;
-        else if (encrypted && value.startsWith(ENCRYPTED_VALUE_LABEL))
-            return encryptor.decrypt(value.substring(ENCRYPTED_VALUE_LABEL.length()));
-        else
-            return value;
     }
 
     /**

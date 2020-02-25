@@ -18,6 +18,7 @@
 package com.skanders.rms.util.socket;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import org.glassfish.jersey.SslConfigurator;
 
 import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.Client;
@@ -27,6 +28,7 @@ import java.net.URI;
 
 public class ServiceSocketFactory
 {
+    private static final String PROTOCOL = "TLSv1.2";
     private static final Client DEFAULT_CLIENT;
 
     static {
@@ -127,7 +129,26 @@ public class ServiceSocketFactory
         return this;
     }
 
+    /**
+     * Attaches a SSLContext truststore to the ServiceSocketFactory.
+     * <p>
+     * Uses a default protocol of TLSv1.2.
+     * <p>
+     * Replaces any SSLContext on the socket.
+     *
+     * @param trustStoreFile truststore file location
+     * @param trustStorePass truststore file password
+     * @return returns this instance of ServiceSocketFactory
+     */
+    public ServiceSocketFactory withTrustStore(String trustStoreFile, String trustStorePass)
+    {
+        SslConfigurator configurator = SslConfigurator.newInstance()
+                .trustStoreFile(trustStoreFile)
+                .trustStorePassword(trustStorePass)
+                .securityProtocol(PROTOCOL);
 
+        return this.withSSLContext(configurator.createSSLContext());
+    }
     /**
      * If the same {@link SSLContext} is being used between multiple
      * ServiceSocketFactory's then this function will use the supplied
