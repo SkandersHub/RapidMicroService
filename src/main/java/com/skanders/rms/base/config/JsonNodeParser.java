@@ -17,8 +17,11 @@
 package com.skanders.rms.base.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
+import com.skanders.rms.util.builder.ModelBuilder;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 
 import java.util.Iterator;
@@ -27,6 +30,7 @@ import java.util.Map;
 class JsonNodeParser
 {
     private static final String ENCRYPTED_VALUE_LABEL = "enc=";
+    private static final ObjectMapper MAPPER = ModelBuilder.getJsonMapper();
 
     public static void decryptNodes(JsonNode nodes, StandardPBEStringEncryptor encryptor)
     {
@@ -64,7 +68,7 @@ class JsonNodeParser
                     String value = decrypt(node.getValue(), encryptor);
 
                     if (value != null)
-                        ((ObjectNode) node.getValue()).put(node.getKey(), value);
+                        ((ObjectNode) nodes).replace(node.getKey(), new TextNode(value));
 
                     break;
 
@@ -76,10 +80,9 @@ class JsonNodeParser
 
     private static void parseArray(ArrayNode arrayNode, StandardPBEStringEncryptor encryptor)
     {
-        int i = 0;
         int size = arrayNode.size();
 
-        while (i < size) {
+        for (int i = 0; i < size; i++)
             switch (arrayNode.get(i).getNodeType()) {
                 case ARRAY:
                     parseArray((ArrayNode) arrayNode.get(i), encryptor);
@@ -92,19 +95,14 @@ class JsonNodeParser
                 case STRING:
                     String value = decrypt(arrayNode.get(i), encryptor);
 
-                    if (value != null) {
-                        arrayNode.remove(i);
-                        arrayNode.add(value);
-                        size--;
-                    }
+                    if (value != null)
+                        arrayNode.set(i, new TextNode(value));
+
                     continue;
 
                 default:
                     //continue
             }
-
-            i++;
-        }
     }
 
     /**
