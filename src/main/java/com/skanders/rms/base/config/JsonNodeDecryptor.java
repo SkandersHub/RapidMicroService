@@ -17,21 +17,38 @@
 package com.skanders.rms.base.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
-import com.skanders.rms.util.builder.ModelBuilder;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 
 import java.util.Iterator;
 import java.util.Map;
 
-class JsonNodeParser
+/**
+ * JsonNode decryptor for RMSProperties
+ * <p>
+ * If RMSProperties is created as an encrypted type then the entre JsonNode tree
+ * will be parsed and the decryptor will replace all instances of 'enc="value"'
+ * with its decrypted value
+ */
+class JsonNodeDecryptor
 {
     private static final String ENCRYPTED_VALUE_LABEL = "enc=";
-    private static final ObjectMapper MAPPER = ModelBuilder.getJsonMapper();
 
+    /**
+     * Starting point for JsonNodeDecryptor. Starts parsing as Either a Array Or
+     * Object first. If the JsonNode is either of these then the JsonValue is
+     * ignored.
+     * <p>
+     * Only JsonNode Objects will are valid for RMSProperties as values can only
+     * be retrieved by a key and not index. However Array Is left for future
+     * additions to RMSProperties and This class will even decrypt Yamls that
+     * are arrays.
+     *
+     * @param nodes     JsonNode built from RMS config yaml file
+     * @param encryptor an instance of StandardPBEStringEncryptor
+     */
     public static void decryptNodes(JsonNode nodes, StandardPBEStringEncryptor encryptor)
     {
         switch (nodes.getNodeType()) {
@@ -45,12 +62,20 @@ class JsonNodeParser
 
             default:
                 // continue
+
         }
     }
 
-    private static void parseObject(JsonNode nodes, StandardPBEStringEncryptor encryptor)
+    /**
+     * Parses an Object JsonNode, replacing ONLY text nodes IF the text value
+     * was flagged with the label 'enc='
+     *
+     * @param objectNode an Object JsonNode instance
+     * @param encryptor  an instance of StandardPBEStringEncryptor
+     */
+    private static void parseObject(JsonNode objectNode, StandardPBEStringEncryptor encryptor)
     {
-        Iterator<Map.Entry<String, JsonNode>> it = nodes.fields();
+        Iterator<Map.Entry<String, JsonNode>> it = objectNode.fields();
 
         while (it.hasNext()) {
             Map.Entry<String, JsonNode> node = it.next();
@@ -68,16 +93,24 @@ class JsonNodeParser
                     String value = decrypt(node.getValue(), encryptor);
 
                     if (value != null)
-                        ((ObjectNode) nodes).replace(node.getKey(), new TextNode(value));
+                        ((ObjectNode) objectNode).replace(node.getKey(), new TextNode(value));
 
                     break;
 
                 default:
                     // continue
+
             }
         }
     }
 
+    /**
+     * Parses an Array JsonNode (ArrayNode), replacing ONLY text nodes IF the
+     * text value was flagged with the label 'enc='
+     *
+     * @param arrayNode an Array JsonNode (ArrayNode) instance
+     * @param encryptor an instance of StandardPBEStringEncryptor
+     */
     private static void parseArray(ArrayNode arrayNode, StandardPBEStringEncryptor encryptor)
     {
         int size = arrayNode.size();
@@ -102,21 +135,20 @@ class JsonNodeParser
 
                 default:
                     //continue
+
             }
     }
 
     /**
-     * Checks the value for encryption label. If labeled and RMSProperties is
-     * labeled as a encrypted properties instance then will automatically
-     * decrypt the value.
+     * Checks the value for encryption label. If labeled then the value will
+     * automatically be decrypted.
      * <p>
-     * If the label is missing or if RMSProperties is not labeled as a encrypted
-     * properties instance, then the value will just be returned.
+     * If the label is missing then the nul will be returned to avoid replacing
+     * the node
      *
-     * @param node      value to check
-     * @param encryptor a StandardPBEStringEcnryptor instance
-     * @return the decrypted value or original value if no encryption options
-     * available
+     * @param node      TextNode to check
+     * @param encryptor a StandardPBEStringEncryptor instance
+     * @return the decrypted value or null
      */
     private static String decrypt(JsonNode node, StandardPBEStringEncryptor encryptor)
     {

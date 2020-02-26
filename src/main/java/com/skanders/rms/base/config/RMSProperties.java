@@ -61,9 +61,9 @@ import java.util.Map;
  * will be returned as the default value.
  * <p>
  * Encrypted values can only be strings and must be designated by having its raw
- * value start with the label 'enc='. The value will automaticly be decrypted if
- * both, the value starts with the label AND RMSProperties was created using the
- * {@link #fromEncrypted(String, String, String)} or {@link
+ * value start with the label 'enc='. The value will automatically be decrypted
+ * if both, the value starts with the label AND RMSProperties was created using
+ * the {@link #fromEncrypted(String, String, String)} or {@link
  * #fromEncrypted(String, String, char[])} functions.
  * <p>
  * This is in a similar manner as JASYPT's encrypted properties file but made to
@@ -121,7 +121,7 @@ public class RMSProperties
 
         JsonNode properties = loadConfigProps(propertiesFileName);
 
-        JsonNodeParser.decryptNodes(properties, encryptor);
+        JsonNodeDecryptor.decryptNodes(properties, encryptor);
 
         return new RMSProperties(properties);
     }
@@ -149,7 +149,7 @@ public class RMSProperties
 
         JsonNode properties = loadConfigProps(propertiesFileName);
 
-        JsonNodeParser.decryptNodes(properties, encryptor);
+        JsonNodeDecryptor.decryptNodes(properties, encryptor);
 
         return new RMSProperties(properties);
     }
