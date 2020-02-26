@@ -23,6 +23,7 @@ import javax.annotation.Nonnull;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Configuration object for RapidMicroService to set its initial state.
@@ -172,7 +173,10 @@ public class RMSConfig
         dbMaxLifetime = prop.getReqLong("db.maxLifetime");
         dbMaxPoolSize = prop.getReqInt("db.maxPoolSize");
 
-        dbProperties = new HashMap<>(prop.getMap("db.properties", String.class, Object.class));
+        Map<String, Object> dpProp = prop.getMap("db.properties", String.class, Object.class);
+
+        if (dpProp != null)
+            dbProperties = new HashMap<>(dpProp);
     }
 
     /**
