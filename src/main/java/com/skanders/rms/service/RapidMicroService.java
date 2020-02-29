@@ -301,7 +301,7 @@ public abstract class RapidMicroService
      */
     public AtSQL getAtSQL()
     {
-        Verify.notNull(atSQL, "PoolManager has not bee initialized.");
+        Verify.notNull(atSQL, "AtSQL has not been initialized.");
 
         return atSQL;
     }
